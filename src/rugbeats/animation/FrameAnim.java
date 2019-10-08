@@ -4,14 +4,14 @@ import javafx.scene.image.Image;
 
 public class FrameAnim {
   Image[] _frames;
-  double _duration;
+  float _duration;
 
-  public FrameAnim(int a) {
+  public FrameAnim(float a) {
     _duration = a;
   }
 
-  public FrameAnim(Image[] f, double d) {
-    _frames = f;  // 什么时候用 this???
+  public FrameAnim(Image[] f, float d) {
+    _frames = f;
     _duration = d;
   }
 

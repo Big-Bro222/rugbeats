@@ -11,9 +11,9 @@ public class Player {
   private int h = 50;
   private int gridX = 0;// pos in grid
   private int gridY = 0;
-  private int cols = 100;
-  private int rows = 100;
-  private int gridSize = 30;
+  private int cols = GLOBAL.GRID_COLS;
+  private int rows = GLOBAL.GRID_ROWS;
+  private int gridSize = GLOBAL.GRID_SIZE;
   private String name;
   //flags
   private boolean operable = true;// can ope while moving & not on beat
@@ -28,6 +28,7 @@ public class Player {
     this.name = name;
     this.gridX = gridX;
     this.gridY = gridY;
+    updateScreenPos();
   }
 
   public int getX() {
@@ -91,12 +92,14 @@ public class Player {
     return gridx >= 0 && gridx < cols
             && gridy >= 0 && gridy < rows;
   }
-
+  private void updateScreenPos(){
+    x = gridX * gridSize;
+    y = gridY * gridSize;
+  }
   private void move(char dir) {
     switch (dir) {
       case 'l':
         if (insideCheck(gridX - 1, gridY)) {
-
           gridX--;
         }
         break;
@@ -116,7 +119,6 @@ public class Player {
         }
         break;
     }
-    x = gridX * gridSize;
-    y = gridY * gridSize;
+    updateScreenPos();
   }
 }
