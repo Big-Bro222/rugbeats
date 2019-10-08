@@ -21,11 +21,10 @@ class StartPage {
   private Button[] p1Keys={new Button("W"),new Button("S"),new Button("A"),new Button("D")};
   private Button[] p2Keys={new Button("▲"),new Button("▼"),new Button("◄"),new Button("►")};
   private Canvas canvas = new Canvas();
-  private Button startBtn = new Button("Start Game");
   private Label startLbl=new Label("Stay Closer to Start Game");
   GraphicsContext gc = canvas.getGraphicsContext2D();
-  Player player1 = new Player("Morty", GLOBAL.GRID_COLS-8, GLOBAL.GRID_ROWS/2-5);
-  Player player2 = new Player("Alex", 8, GLOBAL.GRID_ROWS/2-5);
+  Player player1 = new Player("Morty", GLOBAL.GRID_COLS-11, GLOBAL.GRID_ROWS/2-5);
+  Player player2 = new Player("Alex", 11, GLOBAL.GRID_ROWS/2-5);
 
 
   private float progress = 0;
@@ -50,29 +49,27 @@ class StartPage {
 //    root.getChildren().add(startBtn);
     startLbl.setStyle("-fx-font-size:40;");
     root.getChildren().add(startLbl);
-    root.getChildren().add(startBtn);
-    startBtn.setLayoutX(80);
     p1Keys[3].setLayoutX(20);
     p1Keys[3].setLayoutY(30);
 
     // put instruction keys
-    p1Keys[0].setLayoutX(160); //w
-    p1Keys[0].setLayoutY(200);
-    p1Keys[1].setLayoutX(160);//d
-    p1Keys[1].setLayoutY(230);
-    p1Keys[2].setLayoutX(130);//a
-    p1Keys[2].setLayoutY(230);
-    p1Keys[3].setLayoutX(190);//s
-    p1Keys[3].setLayoutY(230);
+    p1Keys[0].setLayoutX(190); //w
+    p1Keys[0].setLayoutY(290);
+    p1Keys[1].setLayoutX(190);//d
+    p1Keys[1].setLayoutY(320);
+    p1Keys[2].setLayoutX(160);//a
+    p1Keys[2].setLayoutY(320);
+    p1Keys[3].setLayoutX(220);//s
+    p1Keys[3].setLayoutY(320);
 
-    p2Keys[0].setLayoutX(160+585);
-    p2Keys[0].setLayoutY(200);
-    p2Keys[1].setLayoutX(160+585);
-    p2Keys[1].setLayoutY(230);
-    p2Keys[2].setLayoutX(130+585);
-    p2Keys[2].setLayoutY(230);
-    p2Keys[3].setLayoutX(190+585);
-    p2Keys[3].setLayoutY(230);
+    p2Keys[0].setLayoutX(190+785);
+    p2Keys[0].setLayoutY(290);
+    p2Keys[1].setLayoutX(190+785);
+    p2Keys[1].setLayoutY(320);
+    p2Keys[2].setLayoutX(160+785);
+    p2Keys[2].setLayoutY(320);
+    p2Keys[3].setLayoutX(220+785);
+    p2Keys[3].setLayoutY(320);
     root.getChildren().addAll(p2Keys);
     root.getChildren().addAll(p1Keys);
     canvas.widthProperty().bind(root.widthProperty());

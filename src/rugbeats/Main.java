@@ -10,14 +10,17 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.List;
 
 public class Main extends Application {
-private Scene[] _scenes=new Scene[2];
-int currentScene=0;
-Stage _stage;
+  private Scene[] _scenes = new Scene[2];
+  int currentScene = 0;
+  Stage _stage;
 
   public static void main(String[] args) {
     launch(args);
@@ -28,16 +31,15 @@ Stage _stage;
     super.init();
 
 
-
   }
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    _stage=primaryStage;
+    _stage = primaryStage;
     Group dRoot = new Group();
     Canvas canvas = new Canvas(512, 256);
     dRoot.getChildren().add(canvas);
-    StartPage startPage=new StartPage(this);
+    StartPage startPage = new StartPage(this);
 
     final long startNanoTime = System.nanoTime();
 //    new AnimationTimer() {
@@ -45,13 +47,16 @@ Stage _stage;
 //        startPage.draw();
 //      }
 //    }.start();
-    primaryStage.setTitle("Hello World");
     primaryStage.setScene(startPage.getScene());
+    primaryStage.setTitle("Rugbeats");
     primaryStage.show();
 
-    _scenes[0]=startPage.getScene();
-    _scenes[1]=new Scene(dRoot, 300, 275);
-  }
+    _scenes[0] = startPage.getScene();
+    _scenes[1] =  new Scene(new Characterselection(), GLOBAL.WINDOW_W, GLOBAL.WINDOW_H);
+}
+
+
+
 
   public void nextScene(){
     currentScene++;

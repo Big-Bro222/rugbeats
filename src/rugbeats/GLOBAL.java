@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 class GLOBAL {
   // Constants
   static final float HW_RATIO=5.0f/9;
-  static final int WINDOW_W=900;
+  static final int WINDOW_W=1200;
   static final int WINDOW_H= (int) (WINDOW_W*HW_RATIO);
   static final int GRID_SIZE=20;
   static final int GRID_COLS=WINDOW_W/GRID_SIZE;
