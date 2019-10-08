@@ -26,40 +26,11 @@ public class Main extends Application {
     Group dRoot = new Group();
 
     primaryStage.setTitle("Hello World");
-    primaryStage.setScene(new Scene(dRoot, 300, 275));
-//        primaryStage.setFullScreen(true);
-
-    Canvas canvas = new Canvas(512, 256);
-
-    dRoot.getChildren().add(canvas);
-    GraphicsContext gc = canvas.getGraphicsContext2D();
-    final long startNanoTime = System.nanoTime();
-
-    new AnimationTimer() {
-      public void handle(long currentNanoTime) {
-        double t = (currentNanoTime - startNanoTime) / 1000000000.0;
-
-        double x = 232 + 128 * Math.cos(t);
-        double y = 232 + 128 * Math.sin(t);
-
-        // background image clears canvas
-//            gc.drawImage( space, 0, 0 );
-//            gc.drawImage( earth, x, y );
-//            gc.drawImage( sun, 196, 196 );
-        gc.fillRect(0, 0, 55, 233);
-      }
-    }.start();
-    Button changeScene = new Button("to character scene");
-
 
 
     Characterselection characterscene = new Characterselection();
 
-    changeScene.setOnMouseClicked(event -> {
-      System.out.println("clicked");
-    });
-    dRoot.getChildren().add(changeScene);
-    primaryStage.setScene(new Scene(characterscene, 800, 500));
+    primaryStage.setScene(new Scene(characterscene, 1200, 500));
     primaryStage.setTitle("characterscene");
     primaryStage.show();
 
