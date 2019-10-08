@@ -8,6 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -18,33 +20,25 @@ public class Main extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
+    StartPage startPage=new StartPage();
     Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
     Group dRoot = new Group();
     primaryStage.setTitle("Hello World");
     primaryStage.setScene(new Scene(dRoot, 300, 275));
+
 //        primaryStage.setFullScreen(true);
 
     Canvas canvas = new Canvas(512, 256);
     dRoot.getChildren().add(canvas);
-    GraphicsContext gc = canvas.getGraphicsContext2D();
     final long startNanoTime = System.nanoTime();
 
-    new AnimationTimer() {
-      public void handle(long currentNanoTime) {
-        double t = (currentNanoTime - startNanoTime) / 1000000000.0;
+//    new AnimationTimer() {
+//      public void handle(long currentNanoTime) {
+//        startPage.draw();
+//      }
+//    }.start();
 
-        double x = 232 + 128 * Math.cos(t);
-        double y = 232 + 128 * Math.sin(t);
-
-        // background image clears canvas
-//            gc.drawImage( space, 0, 0 );
-//            gc.drawImage( earth, x, y );
-//            gc.drawImage( sun, 196, 196 );
-        gc.fillRect(0, 0, 55, 233);
-      }
-    }.start();
-
-
+    primaryStage.setScene(startPage.getScene());
     primaryStage.show();
   }
 }
