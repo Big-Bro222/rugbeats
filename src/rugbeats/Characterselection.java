@@ -87,6 +87,8 @@ public class Characterselection extends GridPane {
         this.add(p2_hat,1,2);
         this.add(p2_cloth,3,2);
         this.add(Character_p2,4,2);
+
+        //setup adaptive layout
         this.setHgrow(p2,Priority.ALWAYS);
         this.setHgrow(Character_p2,Priority.NEVER);
         this.setVgrow(next,Priority.ALWAYS);

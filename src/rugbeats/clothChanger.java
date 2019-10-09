@@ -35,6 +35,8 @@ public class clothChanger {
 
     }
 
+    //generate the switch bar for the character
+    //To do:change the mouseclick event into key event.
     public VBox getclothbox(ImageView img1,ImageView img2,ImageView img3){
         ArrayList<ImageView> hatimg= new ArrayList<>();
         hatimg.add(img1);
@@ -93,6 +95,9 @@ public class clothChanger {
 
         return p1_hat;
     }
+
+
+    //To do:generate over all Character
     public HBox getCharacter(){
         c= new HBox();
 
@@ -120,6 +125,7 @@ public class clothChanger {
         p1_hatimg.getChildren().addAll(hatimg.get(0));
 
     }
+
     public void down_to_upChangeimg(StackPane p1_hatimg,ArrayList<ImageView> hatimg) {
         p1_hatimg.getChildren().clear();
         System.out.println("change view");
