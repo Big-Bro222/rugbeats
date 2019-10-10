@@ -17,27 +17,27 @@ import javafx.scene.shape.Polygon;
 
 import java.util.ArrayList;
 
-public class clothChanger {
+public class clothChanger extends VBox{
 
     private VBox p1_hat;
     private HBox c;
-    private ImageView currentimg;
+    private ImageView img1;
+    private ImageView img2;
+    private ImageView img3;
     private int index;
     private EventHandler changeimg1;
 
-    public clothChanger(){
-        super();
-        p1_hat= new VBox();
-        c= new HBox();
-        currentimg= new ImageView();
-        index=0;
-
-
+    public clothChanger(ImageView img1,ImageView img2,ImageView img3) {
+        this.img1 = img1;
+        this.img2 = img2;
+        this.img3 = img3;
+        getclothbox(img1,img2,img3);
+        clicked();
     }
 
     //generate the switch bar for the character
     //To do:change the mouseclick event into key event.
-    public VBox getclothbox(ImageView img1,ImageView img2,ImageView img3){
+    public void getclothbox(ImageView img1,ImageView img2,ImageView img3){
         ArrayList<ImageView> hatimg= new ArrayList<>();
         hatimg.add(img1);
         hatimg.add(img2);
@@ -66,6 +66,9 @@ public class clothChanger {
         triangle.setSmooth(true);
         triangle.setRotate(180);
 
+
+
+        clicked();
         ggg.setOnMouseExited(
                 event -> {
                     triangle.setFill(Color.BLACK);}
@@ -87,30 +90,13 @@ public class clothChanger {
         );
         g.setOnMouseClicked(event -> {
             up_to_downChangeimg(p1_hatimg,hatimg);
-            currentimg=img1;
         });
         ggg.getChildren().add(triangle);
         g.getChildren().add(polygon);
-        p1_hat= new VBox(g,p1_hatimg,ggg);
+        this.getChildren().addAll(g,p1_hatimg,ggg);
 
-        return p1_hat;
+
     }
-
-
-    //To do:generate over all Character
-    public HBox getCharacter(){
-        c= new HBox();
-
-        Canvas canvas = new Canvas(300, 250);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-
-        gc.setFill(Color.BLUE);
-        gc.fillRect(50,50,100,100);
-        gc.drawImage(currentimg.getImage(),0,0);
-        c.getChildren().add(canvas);
-        return  c;
-    };
-
 
     public void up_to_downChangeimg(StackPane p1_hatimg,ArrayList<ImageView> hatimg) {
         p1_hatimg.getChildren().clear();
@@ -124,6 +110,9 @@ public class clothChanger {
 
         p1_hatimg.getChildren().addAll(hatimg.get(0));
 
+    }
+    public void clicked() {
+        System.out.println("success");
     }
 
     public void down_to_upChangeimg(StackPane p1_hatimg,ArrayList<ImageView> hatimg) {

@@ -15,4 +15,5 @@ class GLOBAL {
   static final Color END_CLR=new Color(45.0/255,199.0/255,255.0/255,1);
   // Global Variables
   static int gTest=3;
+  static Main fxinstance;
 }

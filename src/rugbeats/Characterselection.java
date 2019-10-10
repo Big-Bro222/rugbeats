@@ -25,7 +25,6 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Characterselection extends GridPane {
-    clothChanger cc;
     VBox p1_hat= new VBox();
     VBox p1_cloth= new VBox();
     HBox Character_p1=new HBox();
@@ -33,10 +32,11 @@ public class Characterselection extends GridPane {
     VBox p2_hat= new VBox();
     VBox p2_cloth= new VBox();
     HBox Character_p2=new HBox();
+
     public Characterselection(){
-        super();
-        cc= new clothChanger();
+
         initializeUI();
+
     }
     public void initializeUI(){
 
@@ -60,10 +60,9 @@ public class Characterselection extends GridPane {
         ImageView p2_clothimg1= new ImageView(new Image("rugbeats/img/c1_cloth.png"));
         ImageView p2_clothimg2= new ImageView(new Image("rugbeats/img/c2_cloth.png"));
         ImageView p2_clothimg3= new ImageView(new Image("rugbeats/img/c3_cloth.png"));
-        Character_p1=cc.getCharacter();
-        p1_hat=cc.getclothbox(p1_hatimg1,p1_hatimg2,p1_hatimg3);
-        p1_cloth=cc.getclothbox(p1_clothimg1,p1_clothimg2,p1_clothimg3);
-
+        p1_hat=new clothChanger(p1_hatimg1,p1_hatimg2,p1_hatimg3);
+        p1_cloth=new clothChanger(p1_clothimg1,p1_clothimg2,p1_clothimg3);
+        Character_p1=new Character_layout();
         Label p1= new Label("P1");
         this.setHgap(100);
         this.setPadding(new Insets(30,0,10,30));
@@ -76,12 +75,23 @@ public class Characterselection extends GridPane {
         next.setStyle("-fx-base:#4C8FFB;" +
                 "-fx-font-size:15;");
         next.setPrefSize(100,50);
+        next.setOnMouseClicked(e->{
+            GLOBAL.fxinstance.nextScene();
+        });
+        setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                System.out.println("Enter Pressed");
+//                clicked();
+            }
+        });
+
 
         GridPane.setHalignment(next, HPos.CENTER);
         this.add(next,2,1);
-        Character_p2=cc.getCharacter();
-        p2_hat=cc.getclothbox(p2_hatimg1,p2_hatimg2,p2_hatimg3);
-        p2_cloth=cc.getclothbox(p2_clothimg1,p2_clothimg2,p2_clothimg3);
+
+        p2_hat=new clothChanger(p2_hatimg1,p2_hatimg2,p2_hatimg3);
+        p2_cloth=new clothChanger(p2_clothimg1,p2_clothimg2,p2_clothimg3);
+        Character_p2=new Character_layout();
         Label p2= new Label("P2");
         this.add(p2,0,2);
         this.add(p2_hat,1,2);
