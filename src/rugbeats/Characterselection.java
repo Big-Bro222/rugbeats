@@ -33,8 +33,12 @@ public class Characterselection extends GridPane {
     VBox p2_cloth= new VBox();
     HBox Character_p2=new HBox();
 
-    public Characterselection(){
+    private CharacterSelectionController CScontroller;
+    private CharacterSelectionModel Csmodel;
 
+    public Characterselection(){
+        Csmodel=new CharacterSelectionModel();
+        CScontroller= new CharacterSelectionController(Csmodel);
         initializeUI();
 
     }
@@ -78,14 +82,6 @@ public class Characterselection extends GridPane {
         next.setOnMouseClicked(e->{
             GLOBAL.fxinstance.nextScene();
         });
-        setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                System.out.println("Enter Pressed");
-//                clicked();
-            }
-        });
-
-
         GridPane.setHalignment(next, HPos.CENTER);
         this.add(next,2,1);
 
@@ -98,6 +94,51 @@ public class Characterselection extends GridPane {
         this.add(p2_cloth,3,2);
         this.add(Character_p2,4,2);
 
+
+
+
+        setOnKeyPressed(event -> {
+            if (event.getCode()==KeyCode.A){
+                CScontroller.setAppearenceMode();
+                if(Csmodel.getAppearenceMode()==0){
+                    CScontroller.setSelectionBorderView((clothChanger)p1_hat);
+                }
+                else{
+                    CScontroller.setSelectionBorderView((clothChanger)p1_cloth);
+                }
+            }
+            if (event.getCode() == KeyCode.W) {
+                CScontroller.setCharactermode();
+                CScontroller.up_to_downChangeView((clothChanger) p1_hat);
+            }
+            if (event.getCode() == KeyCode.S) {
+                CScontroller.setCharactermode();
+                CScontroller.down_to_upChangeView((clothChanger) p1_hat);
+            }
+            if (event.getCode() == KeyCode.UP) {
+                CScontroller.setCharactermode();
+                CScontroller.up_to_downChangeView((clothChanger) p2_hat);
+            }
+            if (event.getCode() == KeyCode.DOWN) {
+                CScontroller.setCharactermode();
+                CScontroller.down_to_upChangeView((clothChanger) p2_hat);
+            }
+        });
+
+        setOnKeyReleased(event -> {
+            if(event.getCode()==KeyCode.W){
+                CScontroller.upkeyreleaseView((clothChanger) p1_hat);
+            }
+            if(event.getCode()==KeyCode.S){
+                CScontroller.downkeyreleaseView((clothChanger) p1_hat);
+            }
+            if(event.getCode()==KeyCode.UP){
+                CScontroller.upkeyreleaseView((clothChanger) p2_hat);
+            }
+            if(event.getCode()==KeyCode.DOWN){
+                CScontroller.downkeyreleaseView((clothChanger) p2_hat);
+            }
+        });
         //setup adaptive layout
         this.setHgrow(p2,Priority.ALWAYS);
         this.setHgrow(Character_p2,Priority.NEVER);
@@ -107,7 +148,10 @@ public class Characterselection extends GridPane {
         GridPane.setHalignment(p2, HPos.CENTER);
         GridPane.setHalignment(Character_p1, HPos.CENTER);
         GridPane.setHalignment(Character_p2, HPos.CENTER);
-        this.setGridLinesVisible(true);
+
+
+
+        this.setGridLinesVisible(false);
 
     }
 

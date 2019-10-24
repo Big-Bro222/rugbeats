@@ -4,6 +4,8 @@ import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 
+import java.util.Arrays;
+
 public class MazeGenerator extends GridPane {
     private Boolean mousehold;
     private int row;
@@ -11,8 +13,10 @@ public class MazeGenerator extends GridPane {
     public MazeGenerator(){
 
         mousehold=false;
-        row=GLOBAL.GRID_ROWS;
-        col=GLOBAL.GRID_COLS;
+//        row=GLOBAL.GRID_ROWS;
+//        col=GLOBAL.GRID_COLS;
+        row=5;
+        col=7;
         initalUI();
     }
     public void initalUI(){
@@ -29,18 +33,41 @@ public class MazeGenerator extends GridPane {
                 mousehold= false;
             }
         });
+        int[][] buttonnum = new int [row][col];
+
+        for (int i=0;i<row; ++i)
+            for (int j=0; j<col;++j) {
+
+
+                buttonnum[i][j]=0;
+            }
+
+        for(int i=0; i<row; ++i){
+            System.out.println(Arrays.toString(buttonnum[i]));
+        }
+
+        System.out.println(buttonnum);
+
         for ( int i=0;i<row; ++i)
             for ( int j=0; j<col;++j){
                 Button btn = new Button();
                 btn.setPrefSize(GLOBAL.GRID_SIZE, GLOBAL.GRID_SIZE);
-
+                int ro=i;
+                int co=j;
                 btn.setOnMouseEntered(e->{
                     if(mousehold==true)
-                    {btn.setStyle("-fx-base:#433434");}
+                    {btn.setStyle("-fx-base:#433434");
+                     buttonnum[ro][co]=1;
+
+
+//                        for(int o=0; o<row; ++o){
+//                            System.out.println(Arrays.toString(buttonnum[o])); }
+                    }
                 });
                 this.add( btn, j,i);
-
+                GLOBAL.MAZE_STATE=buttonnum;
             }
+
 
     }
 }
