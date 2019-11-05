@@ -25,20 +25,20 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Characterselection extends GridPane {
-    VBox p1_hat= new VBox();
-    VBox p1_cloth= new VBox();
+
+    ImageView CharacterImg1= new ImageView("rugbeats/img/c1.png");
+    ImageView CharacterImg2= new ImageView("rugbeats/img/c2.png");
+    ImageView CharacterImg3= new ImageView("rugbeats/img/c3.png");
+    ImageView WeaponImg1= new ImageView("rugbeats/img/w1.png");
+    ImageView WeaponImg2= new ImageView("rugbeats/img/w2.png");
+    ImageView WeaponImg3= new ImageView("rugbeats/img/w3.png");
+    clothChanger Player1_Character= new clothChanger(CharacterImg1,CharacterImg2,CharacterImg3);
+    clothChanger Player2_Character= new clothChanger(CharacterImg1,CharacterImg2,CharacterImg3);
     HBox Character_p1=new HBox();
-    Image ChracterImg1= new Image("rugbeats/img/c1.png");
-    Image ChracterImg2= new Image("rugbeats/img/c2.png");
-    Image ChracterImg3= new Image("rugbeats/img/c3.png");
-    Image WeaponImg1= new Image("rugbeats/img/w1.png");
-    Image WeaponImg2= new Image("rugbeats/img/w2.png");
-    Image WeaponImg3= new Image("rugbeats/img/w3.png");
+    clothChanger Player1_Weapon= new clothChanger(CharacterImg1,CharacterImg2,CharacterImg3);
+    clothChanger Player2_Weapon= new clothChanger(CharacterImg1,CharacterImg2,CharacterImg3);
 
 
-
-    VBox p2_hat= new VBox();
-    VBox p2_cloth= new VBox();
     HBox Character_p2=new HBox();
 
     private CharacterSelectionController CScontroller;
@@ -59,29 +59,14 @@ public class Characterselection extends GridPane {
 
 
         // set up arraylist for imageview
-        ImageView p1_hatimg1= new ImageView(new Image("rugbeats/img/c1_hat.png"));
-        ImageView p1_hatimg2= new ImageView(new Image("rugbeats/img/c2_hat.png"));
-        ImageView p1_hatimg3= new ImageView(new Image("rugbeats/img/c3_hat.png"));
-        ImageView p1_clothimg1= new ImageView(new Image("rugbeats/img/c1_cloth.png"));
-        ImageView p1_clothimg2= new ImageView(new Image("rugbeats/img/c2_cloth.png"));
-        ImageView p1_clothimg3= new ImageView(new Image("rugbeats/img/c3_cloth.png"));
-
-        ImageView p2_hatimg1= new ImageView(new Image("rugbeats/img/c1_hat.png"));
-        ImageView p2_hatimg2= new ImageView(new Image("rugbeats/img/c2_hat.png"));
-        ImageView p2_hatimg3= new ImageView(new Image("rugbeats/img/c3_hat.png"));
-        ImageView p2_clothimg1= new ImageView(new Image("rugbeats/img/c1_cloth.png"));
-        ImageView p2_clothimg2= new ImageView(new Image("rugbeats/img/c2_cloth.png"));
-        ImageView p2_clothimg3= new ImageView(new Image("rugbeats/img/c3_cloth.png"));
-        p1_hat=new clothChanger(p1_hatimg1,p1_hatimg2,p1_hatimg3);
-        p1_cloth=new clothChanger(p1_clothimg1,p1_clothimg2,p1_clothimg3);
         Character_p1=new Character_layout();
         Label p1= new Label("P1");
         this.setHgap(100);
         this.setPadding(new Insets(30,0,10,30));
         this.setStyle("-fx-base: #bfe7ff;");
         this.add(p1,0,0);
-        this.add(p1_hat,1,0);
-        this.add(p1_cloth,3,0);
+        this.add(Player1_Character,1,0);
+        this.add(Player1_Weapon,3,0);
         this.add(Character_p1,4,0);
         Button next= new Button("next");
         next.setStyle("-fx-base:#4C8FFB;" +
@@ -93,17 +78,15 @@ public class Characterselection extends GridPane {
         GridPane.setHalignment(next, HPos.CENTER);
         this.add(next,2,1);
 
-        p2_hat=new clothChanger(p2_hatimg1,p2_hatimg2,p2_hatimg3);
-        p2_cloth=new clothChanger(p2_clothimg1,p2_clothimg2,p2_clothimg3);
         Character_p2=new Character_layout();
         Label p2= new Label("P2");
         this.add(p2,0,2);
-        this.add(p2_hat,1,2);
-        this.add(p2_cloth,3,2);
+        this.add(Player2_Character,1,2);
+        this.add(Player2_Weapon,3,2);
         this.add(Character_p2,4,2);
 
-        CScontroller.setSelectionBorderView((clothChanger) p1_hat);
-        CScontroller.setSelectionBorderView((clothChanger)p2_hat);
+        CScontroller.setSelectionBorderView(Player1_Character);
+        CScontroller.setSelectionBorderView(Player2_Weapon);
 
         setOnKeyPressed(event -> {
 
@@ -115,14 +98,14 @@ public class Characterselection extends GridPane {
             }
 
             if(Csmodel.getAppearenceModep1()==0){
-                CScontroller.cancelSelectionBorderView((clothChanger)p1_cloth);
-                keyDown(event,(clothChanger)p1_hat);
-                CScontroller.setSelectionBorderView((clothChanger) p1_hat);
+                CScontroller.cancelSelectionBorderView(Player1_Weapon);
+                keyDown(event,Player1_Character);
+                CScontroller.setSelectionBorderView(Player1_Character);
             }
             else{
-                CScontroller.cancelSelectionBorderView((clothChanger)p1_hat);
-                keyDown(event,(clothChanger)p1_cloth);
-                CScontroller.setSelectionBorderView((clothChanger) p1_cloth);
+                CScontroller.cancelSelectionBorderView(Player1_Character);
+                keyDown(event,Player1_Weapon);
+                CScontroller.setSelectionBorderView(Player1_Weapon);
             }
 
 
@@ -132,17 +115,17 @@ public class Characterselection extends GridPane {
 
         setOnKeyReleased(event -> {
             switch (Csmodel.getAppearenceModep1()){
-                case 0:keyUp(event,(clothChanger)p1_hat);
-                case 1:keyUp(event,(clothChanger)p1_cloth);
+                case 0:keyUp(event,Player1_Character);
+                case 1:keyUp(event,Player1_Character);
             }
 
 
 
             if(event.getCode()==KeyCode.UP){
-                CScontroller.upkeyreleaseView((clothChanger) p2_hat);
+                CScontroller.upkeyreleaseView(Player1_Character);
             }
             if(event.getCode()==KeyCode.DOWN){
-                CScontroller.downkeyreleaseView((clothChanger) p2_hat);
+                CScontroller.downkeyreleaseView(Player1_Character);
             }
         });
         //setup adaptive layout
