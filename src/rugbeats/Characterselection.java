@@ -28,6 +28,14 @@ public class Characterselection extends GridPane {
     VBox p1_hat= new VBox();
     VBox p1_cloth= new VBox();
     HBox Character_p1=new HBox();
+    Image ChracterImg1= new Image("rugbeats/img/c1.png");
+    Image ChracterImg2= new Image("rugbeats/img/c2.png");
+    Image ChracterImg3= new Image("rugbeats/img/c3.png");
+    Image WeaponImg1= new Image("rugbeats/img/w1.png");
+    Image WeaponImg2= new Image("rugbeats/img/w2.png");
+    Image WeaponImg3= new Image("rugbeats/img/w3.png");
+
+
 
     VBox p2_hat= new VBox();
     VBox p2_cloth= new VBox();
