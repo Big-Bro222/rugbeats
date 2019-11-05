@@ -29,12 +29,13 @@ class Cell{
 }
 
 public class GameModel {
-  int _cols=50;
-  int _rows=50;
+  int _cols=GLOBAL.gGridCols;
+  int _rows=GLOBAL.gGridRows;
 
   Cell[][] mapTable=new Cell[_rows][_cols];
 
   void init(){
+    // todo load map data from file
     for (int i = 0; i <_rows ; i++) {
       for (int j = 0; j < _cols; j++) {
         mapTable[i][j]._x=j;

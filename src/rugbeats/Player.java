@@ -11,8 +11,8 @@ public class Player {
   private int h = 50;
   private int gridX = 0;// pos in grid
   private int gridY = 0;
-  private int cols = GLOBAL.GRID_COLS;
-  private int rows = GLOBAL.GRID_ROWS;
+  private int cols = GLOBAL.gGridCols;
+  private int rows = GLOBAL.gGridRows;
   private int gridSize = GLOBAL.GRID_SIZE;
   private String name;
   //flags
