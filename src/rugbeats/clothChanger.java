@@ -123,5 +123,8 @@ public class clothChanger extends VBox{
     public void setSelectionBorder(){
         p1_hatimg.setBorder(new Border(new BorderStroke(Color.YELLOW, BorderStrokeStyle.SOLID, null, new BorderWidths(5))));
     }
+    public void cancelSelectionBorder(){
+        p1_hatimg.setBorder(null);
+    }
 
 }

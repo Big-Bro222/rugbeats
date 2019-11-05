@@ -9,8 +9,8 @@ public class CharacterSelectionController {
     public void setCharactermode(){
         model.setCharactermode();
     }
-    public void setAppearenceMode(){model.setAppearenceMode();}
-
+    public void setAppearenceModep1(){model.setAppearenceModep1();}
+    public void setAppearenceModep2(){model.setAppearenceModep2();}
     public void up_to_downChangeView(clothChanger clothChanger){
         clothChanger.up_to_downChangeimg();
     }
@@ -20,6 +20,7 @@ public class CharacterSelectionController {
     public void upkeyreleaseView(clothChanger clothChanger){clothChanger.upkeyrelease();}
     public void downkeyreleaseView(clothChanger clothChanger){clothChanger.downkeyrelease();}
     public void setSelectionBorderView(clothChanger clothChanger){clothChanger.setSelectionBorder();}
+    public void cancelSelectionBorderView(clothChanger clothChanger){clothChanger.cancelSelectionBorder();}
 
 
 }

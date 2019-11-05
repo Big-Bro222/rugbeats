@@ -94,44 +94,42 @@ public class Characterselection extends GridPane {
         this.add(p2_cloth,3,2);
         this.add(Character_p2,4,2);
 
-
-
+        CScontroller.setSelectionBorderView((clothChanger) p1_hat);
+        CScontroller.setSelectionBorderView((clothChanger)p2_hat);
 
         setOnKeyPressed(event -> {
+
             if (event.getCode()==KeyCode.A){
-                CScontroller.setAppearenceMode();
-                if(Csmodel.getAppearenceMode()==0){
-                    CScontroller.setSelectionBorderView((clothChanger)p1_hat);
-                }
-                else{
-                    CScontroller.setSelectionBorderView((clothChanger)p1_cloth);
-                }
+                CScontroller.setAppearenceModep1();
             }
-            if (event.getCode() == KeyCode.W) {
-                CScontroller.setCharactermode();
-                CScontroller.up_to_downChangeView((clothChanger) p1_hat);
+            if (event.getCode()==KeyCode.D){
+                CScontroller.setAppearenceModep1();
             }
-            if (event.getCode() == KeyCode.S) {
-                CScontroller.setCharactermode();
-                CScontroller.down_to_upChangeView((clothChanger) p1_hat);
+
+            if(Csmodel.getAppearenceModep1()==0){
+                CScontroller.cancelSelectionBorderView((clothChanger)p1_cloth);
+                keyDown(event,(clothChanger)p1_hat);
+                CScontroller.setSelectionBorderView((clothChanger) p1_hat);
             }
-            if (event.getCode() == KeyCode.UP) {
-                CScontroller.setCharactermode();
-                CScontroller.up_to_downChangeView((clothChanger) p2_hat);
+            else{
+                CScontroller.cancelSelectionBorderView((clothChanger)p1_hat);
+                keyDown(event,(clothChanger)p1_cloth);
+                CScontroller.setSelectionBorderView((clothChanger) p1_cloth);
             }
-            if (event.getCode() == KeyCode.DOWN) {
-                CScontroller.setCharactermode();
-                CScontroller.down_to_upChangeView((clothChanger) p2_hat);
-            }
+
+
+
+
         });
 
         setOnKeyReleased(event -> {
-            if(event.getCode()==KeyCode.W){
-                CScontroller.upkeyreleaseView((clothChanger) p1_hat);
+            switch (Csmodel.getAppearenceModep1()){
+                case 0:keyUp(event,(clothChanger)p1_hat);
+                case 1:keyUp(event,(clothChanger)p1_cloth);
             }
-            if(event.getCode()==KeyCode.S){
-                CScontroller.downkeyreleaseView((clothChanger) p1_hat);
-            }
+
+
+
             if(event.getCode()==KeyCode.UP){
                 CScontroller.upkeyreleaseView((clothChanger) p2_hat);
             }
@@ -154,6 +152,27 @@ public class Characterselection extends GridPane {
         this.setGridLinesVisible(false);
 
     }
+
+    private void keyDown(KeyEvent event, clothChanger clothChanger){
+        if (event.getCode() == KeyCode.W) {
+            CScontroller.setCharactermode();
+            CScontroller.up_to_downChangeView(clothChanger);
+        }
+        if (event.getCode() == KeyCode.S) {
+            CScontroller.setCharactermode();
+            CScontroller.down_to_upChangeView(clothChanger);
+        }
+
+    }
+     private void keyUp(KeyEvent event, clothChanger clothChanger){
+         if(event.getCode()==KeyCode.W){
+             CScontroller.upkeyreleaseView(clothChanger);
+         }
+         if(event.getCode()==KeyCode.S){
+             CScontroller.downkeyreleaseView(clothChanger);
+         }
+     }
+
 
 
 
