@@ -19,16 +19,13 @@ class GLOBAL {
   static final Color YELLOW=new Color(249.0/255,195.0/255,44.0/255,1);
   static final Color START_CLR=new Color(37.0/255,37.0/255,37.0/255,1);
   static final Color END_CLR=new Color(45.0/255,199.0/255,255.0/255,1);
-<<<<<<< HEAD
   static int MAZE_STATE[][];
-  static List<ImageView> gPlayer1Img= new ArrayList<>(2);
-  static List<ImageView> gPlayer2Img= new ArrayList<>(2);
-=======
 
->>>>>>> 21a61c9e5f7bdafd46c09e71fa51c99c9ef61363
+
   // Global Variables
   static int gTest=3;
-
+  static List<ImageView> gPlayer1Img= new ArrayList<>(2);
+  static List<ImageView> gPlayer2Img= new ArrayList<>(2);
   static Main fxinstance;
   static int MAZE_STATE[][];
   static int gWindowW = 1200;

@@ -14,11 +14,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class clothChanger extends VBox{
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 21a61c9e5f7bdafd46c09e71fa51c99c9ef61363
     private StackPane ImgStack;
     private List<Image> ImgList;
     private ImageView uparrow;
