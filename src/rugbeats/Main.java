@@ -1,21 +1,11 @@
 package rugbeats;
 
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
+import javafx.fxml.FXML;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.util.List;
 
 public class Main extends Application {
   private Scene[] _scenes = new Scene[3];
@@ -50,13 +40,17 @@ public class Main extends Application {
 
 
     _scenes[0] = startPage.getScene();
+//<<<<<<< HEAD
+//    _scenes[1] =  new Scene(new Characterselection(), GLOBAL.gWindowW, GLOBAL.gWindowH);
+//=======
     _scenes[1] =  new Scene(new Characterselection(), GLOBAL.WINDOW_W, GLOBAL.WINDOW_H);
     _scenes[2] = new Scene(new MazeGenerator(),GLOBAL.WINDOW_W, GLOBAL.WINDOW_H);
     System.out.println("sfds");
 
-    primaryStage.setScene(_scenes[1]);
+    primaryStage.setScene(_scenes[0]);
     primaryStage.setTitle("Rugbeats");
     primaryStage.show();
+//>>>>>>> caef0672099cebba31172561287e5e2c1b9b3faa
 }
 
 

@@ -146,7 +146,6 @@ public class Characterselection extends GridPane {
 
 
             }
-
             int[]PlayerStates =Csmodel.getPlayerStates();
             if(event.getCode()==KeyCode.S){
                 if(PlayerStates[0]==0){
@@ -197,6 +196,7 @@ public class Characterselection extends GridPane {
         this.setGridLinesVisible(false);
 
     }
+
 
 
 

@@ -1,5 +1,7 @@
 package rugbeats;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
 public class Utils {
@@ -34,5 +36,14 @@ public class Utils {
 
   public static float clamp(float value, float start, float end) {
     return Math.max(start, Math.min(value, end));
+  }
+
+  public static Image imgScale(Image source, int targetWidth, int targetHeight, boolean preserveRatio, boolean smooth) {
+    ImageView imageView = new ImageView(source);
+    imageView.setPreserveRatio(preserveRatio);
+    imageView.setSmooth(smooth);
+    imageView.setFitWidth(targetWidth);
+    imageView.setFitHeight(targetHeight);
+    return imageView.snapshot(null, null);
   }
 }

@@ -60,8 +60,8 @@ public class MazeGenerator extends GridPane {
                      buttonnum[ro][co]=1;
 
 
-//                        for(int o=0; o<row; ++o){
-//                            System.out.println(Arrays.toString(buttonnum[o])); }
+                        for(int o=0; o<row; ++o){
+                           System.out.println(Arrays.toString(buttonnum[o])); }
                     }
                 });
                 this.add( btn, j,i);
