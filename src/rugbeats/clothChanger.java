@@ -15,55 +15,52 @@ import javafx.scene.shape.Polygon;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class clothChanger extends VBox{
 
     private VBox p1_hat;
-    private HBox c;
+
     private ImageView img1;
     private ImageView img2;
     private ImageView img3;
     private int index;
     private EventHandler changeimg1;
-    private StackPane p1_hatimg;
-    private ArrayList <ImageView> hatimg;
+    private StackPane ImgStack;
+    private List<Image> ImgList;
     private Polygon triangle;
     private ImageView uparrow;
     private ImageView downarrow;
-    private Image uparrows_clicked;
-    private Image downarrows_clicked;
-    private Image uparrows;
-    private Image downarrows;
-    public clothChanger(ImageView img1,ImageView img2,ImageView img3) {
-        this.img1 = img1;
-        this.img2 = img2;
-        this.img3 = img3;
-        uparrows_clicked=new Image("rugbeats/img/uparrow_clicked.png");
-        downarrows_clicked=new Image("rugbeats/img/downarrow_clicked.png");
-        uparrows=new Image("rugbeats/img/uparrow.png");
-        downarrows=new Image("rugbeats/img/downarrow.png");
-        getclothbox(img1,img2,img3);
-        clicked();
+    private Image uparrow_clicked;
+    private Image downarrow_clicked;
+    private Image uparrowImg;
+    private Image downarrowImg;
+    private ImageView ImgStackView;
+    int imgsize;
+    public clothChanger(List<Image> ImgList) {
+        imgsize=100;
+        this.ImgList=ImgList;
+        uparrow_clicked=new Image("rugbeats/img/uparrow_clicked.png");
+        downarrow_clicked=new Image("rugbeats/img/downarrow_clicked.png");
+        uparrowImg=new Image("rugbeats/img/uparrow.png");
+        downarrowImg=new Image("rugbeats/img/downarrow.png");
+        getclothbox(ImgList);
     }
 
     //generate the switch bar for the character
     //To do:change the mouseclick event into key event.
-    public void getclothbox(ImageView img1,ImageView img2,ImageView img3){
-        hatimg= new ArrayList<>();
-        hatimg.add(img1);
-        hatimg.add(img2);
-        hatimg.add(img3);
-        p1_hatimg =new StackPane(hatimg.get(0));
+    public void getclothbox(List<Image> ImgList){
 
-        int imgsize=100;
-        img1.setFitHeight(imgsize);
-        img1.setFitWidth(imgsize);
-        img2.setFitHeight(imgsize);
-        img2.setFitWidth(imgsize);
-        img3.setFitHeight(imgsize);
-        img3.setFitWidth(imgsize);
+        ImgStackView=new ImageView(ImgList.get(0));
+        ImgStackView.setFitHeight(imgsize);
+        ImgStackView.setFitWidth(imgsize);
+
+        ImgStack =new StackPane(ImgStackView);
+
+
         uparrow= new ImageView();
-        uparrow.setImage(uparrows);
+        uparrow.setImage(uparrowImg);
         uparrow.setPreserveRatio(true);
         uparrow.setFitWidth(100);
         Button triangleup= new Button("",uparrow);
@@ -71,60 +68,61 @@ public class clothChanger extends VBox{
 
 
         downarrow= new ImageView();
-        downarrow.setImage(downarrows);
+        downarrow.setImage(downarrowImg);
         downarrow.setPreserveRatio(true);
         downarrow.setFitWidth(100);
         Button triangledown= new Button("",downarrow);
         triangledown.setStyle("-fx-background-insets:0.0;"+"-fx-background-color: transparent;");
 
-
-        this.getChildren().addAll(triangleup,p1_hatimg,triangledown);
-
-
+        this.getChildren().addAll(triangleup,ImgStack,triangledown);
     }
 
-//up button hold
-    public void up_to_downChangeimg() {
-        p1_hatimg.getChildren().clear();
-        ImageView index0= hatimg.get(0);
-        ImageView index1= hatimg.get(1);
-        ImageView index2= hatimg.get(2);
-        hatimg.set(0,index1);
-        hatimg.set(1,index2);
-        hatimg.set(2,index0);
-        uparrow.setImage(uparrows_clicked);
-        p1_hatimg.getChildren().addAll(hatimg.get(0));
+    public void PressDownChangeimg() {
+        ImgStack.getChildren().clear();
+        List<Image> ImgstorageList=ImgList;
+        Image TemporaryImg= ImgList.get(0);
+        for(int i=0;i<ImgList.size()-1;i++){
+               ImgstorageList.set(i,ImgList.get(i+1));
+        }
+        ImgstorageList.set(ImgList.size()-1,TemporaryImg);
 
-    }
-    public void clicked() {
-        System.out.println("success");
-    }
-//down button hold
-    public void down_to_upChangeimg() {
-        p1_hatimg.getChildren().clear();
-        System.out.println("change view");
-        ImageView index0= hatimg.get(0);
-        ImageView index1= hatimg.get(1);
-        ImageView index2= hatimg.get(2);
-        hatimg.set(0,index2);
-        hatimg.set(1,index0);
-        hatimg.set(2,index1);
-        downarrow.setImage(downarrows_clicked);
-        p1_hatimg.getChildren().addAll(hatimg.get(0));
-
-    }
-    public void upkeyrelease(){
-        uparrow.setImage(uparrows);
-    }
-    public void downkeyrelease(){
-        downarrow.setImage(downarrows);
+        ImgList=ImgstorageList;
+        ImgStackView=new ImageView(ImgList.get(0));
+        ImgStackView.setFitHeight(imgsize);
+        ImgStackView.setFitWidth(imgsize);
+        ImgStack.getChildren().add(ImgStackView);
+        downarrow.setImage(downarrow_clicked);
     }
 
+    public void PressUpChangeimg() {
+        ImgStack.getChildren().clear();
+        List<Image> ImgstorageList=ImgList;
+        Image TemporaryImg= ImgList.get(ImgList.size()-1);
+        for(int i=ImgList.size()-1;i>0;i--){
+            ImgstorageList.set(i,ImgList.get(i-1));
+        }
+        ImgstorageList.set(0,TemporaryImg);
+
+        ImgList=ImgstorageList;
+        ImgStackView=new ImageView(ImgList.get(0));
+        ImgStackView.setFitHeight(imgsize);
+        ImgStackView.setFitWidth(imgsize);
+        ImgStack.getChildren().add(ImgStackView);
+        uparrow.setImage(uparrow_clicked);
+    }
+
+    public void ReleaseUpChangeimg(){
+        uparrow.setImage(uparrowImg);
+    }
+    public void ReleaseDownChangeimg(){
+        downarrow.setImage(downarrowImg);
+    }
     public void setSelectionBorder(){
-        p1_hatimg.setBorder(new Border(new BorderStroke(Color.YELLOW, BorderStrokeStyle.SOLID, null, new BorderWidths(5))));
+        ImgStack.setBorder(new Border(new BorderStroke(Color.YELLOW, BorderStrokeStyle.SOLID, null, new BorderWidths(5))));
     }
     public void cancelSelectionBorder(){
-        p1_hatimg.setBorder(null);
+        ImgStack.setBorder(null);
     }
+
 
 }

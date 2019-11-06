@@ -1,5 +1,5 @@
 package rugbeats;
-
+import com.sun.media.jfxmedia.events.PlayerStateEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -21,22 +21,27 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.awt.*;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Characterselection extends GridPane {
+    //hardcode Image
+    Image CharacterImg1= new Image("rugbeats/img/c1.png");
+    Image CharacterImg2= new Image("rugbeats/img/c2.png");
+    Image CharacterImg3= new Image("rugbeats/img/c3.png");
+    Image WeaponImg1= new Image("rugbeats/img/w1.png");
+    Image WeaponImg2= new Image("rugbeats/img/w2.png");
+    Image WeaponImg3= new Image("rugbeats/img/w3.png");
+    List<Image> CharacterImgList = new ArrayList<>();
+    List<Image> WeaponImgList= new ArrayList<>();
 
-    ImageView CharacterImg1= new ImageView("rugbeats/img/c1.png");
-    ImageView CharacterImg2= new ImageView("rugbeats/img/c2.png");
-    ImageView CharacterImg3= new ImageView("rugbeats/img/c3.png");
-    ImageView WeaponImg1= new ImageView("rugbeats/img/w1.png");
-    ImageView WeaponImg2= new ImageView("rugbeats/img/w2.png");
-    ImageView WeaponImg3= new ImageView("rugbeats/img/w3.png");
-    clothChanger Player1_Character= new clothChanger(CharacterImg1,CharacterImg2,CharacterImg3);
-    clothChanger Player2_Character= new clothChanger(CharacterImg1,CharacterImg2,CharacterImg3);
+    clothChanger Player1_Character;
+    clothChanger Player2_Character;
     HBox Character_p1=new HBox();
-    clothChanger Player1_Weapon= new clothChanger(CharacterImg1,CharacterImg2,CharacterImg3);
-    clothChanger Player2_Weapon= new clothChanger(CharacterImg1,CharacterImg2,CharacterImg3);
+    clothChanger Player1_Weapon;
+    clothChanger Player2_Weapon;
 
 
     HBox Character_p2=new HBox();
@@ -47,6 +52,18 @@ public class Characterselection extends GridPane {
     public Characterselection(){
         Csmodel=new CharacterSelectionModel();
         CScontroller= new CharacterSelectionController(Csmodel);
+        //hardcode to setup imgList
+        CharacterImgList.add(CharacterImg1);
+        CharacterImgList.add(CharacterImg2);
+        CharacterImgList.add(CharacterImg3);
+        WeaponImgList.add(WeaponImg1);
+        WeaponImgList.add(WeaponImg2);
+        WeaponImgList.add(WeaponImg3);
+
+        Player1_Character= new clothChanger(CharacterImgList);
+        Player2_Character= new clothChanger(CharacterImgList);
+        Player1_Weapon= new clothChanger(WeaponImgList);
+        Player2_Weapon= new clothChanger(WeaponImgList);
         initializeUI();
 
     }
@@ -85,49 +102,6 @@ public class Characterselection extends GridPane {
         this.add(Player2_Weapon,3,2);
         this.add(Character_p2,4,2);
 
-        CScontroller.setSelectionBorderView(Player1_Character);
-        CScontroller.setSelectionBorderView(Player2_Weapon);
-
-        setOnKeyPressed(event -> {
-
-            if (event.getCode()==KeyCode.A){
-                CScontroller.setAppearenceModep1();
-            }
-            if (event.getCode()==KeyCode.D){
-                CScontroller.setAppearenceModep1();
-            }
-
-            if(Csmodel.getAppearenceModep1()==0){
-                CScontroller.cancelSelectionBorderView(Player1_Weapon);
-                keyDown(event,Player1_Character);
-                CScontroller.setSelectionBorderView(Player1_Character);
-            }
-            else{
-                CScontroller.cancelSelectionBorderView(Player1_Character);
-                keyDown(event,Player1_Weapon);
-                CScontroller.setSelectionBorderView(Player1_Weapon);
-            }
-
-
-
-
-        });
-
-        setOnKeyReleased(event -> {
-            switch (Csmodel.getAppearenceModep1()){
-                case 0:keyUp(event,Player1_Character);
-                case 1:keyUp(event,Player1_Character);
-            }
-
-
-
-            if(event.getCode()==KeyCode.UP){
-                CScontroller.upkeyreleaseView(Player1_Character);
-            }
-            if(event.getCode()==KeyCode.DOWN){
-                CScontroller.downkeyreleaseView(Player1_Character);
-            }
-        });
         //setup adaptive layout
         this.setHgrow(p2,Priority.ALWAYS);
         this.setHgrow(Character_p2,Priority.NEVER);
@@ -137,32 +111,94 @@ public class Characterselection extends GridPane {
         GridPane.setHalignment(p2, HPos.CENTER);
         GridPane.setHalignment(Character_p1, HPos.CENTER);
         GridPane.setHalignment(Character_p2, HPos.CENTER);
+        Player1_Character.setSelectionBorder();
+        Player2_Character.setSelectionBorder();
 
+
+
+        setOnKeyPressed(event -> {
+            if(event.getCode()==KeyCode.A||event.getCode()==KeyCode.D){
+               CScontroller.setPlayerStates(0);
+               int[]PlayerStates =Csmodel.getPlayerStates();
+               System.out.println(PlayerStates[0]);
+               if(PlayerStates[0]==0){
+                   Player1_Character.setSelectionBorder();
+                   Player1_Weapon.cancelSelectionBorder();}
+               else {
+                   Player1_Character.cancelSelectionBorder();
+                   Player1_Weapon.setSelectionBorder();
+               }
+
+            }
+
+            if(event.getCode()==KeyCode.LEFT||event.getCode()==KeyCode.RIGHT){
+
+                CScontroller.setPlayerStates(1);
+                int[]PlayerStates =Csmodel.getPlayerStates();
+                System.out.println(PlayerStates[1]);
+                if(PlayerStates[1]==0){
+                    Player2_Character.setSelectionBorder();
+                    Player2_Weapon.cancelSelectionBorder();}
+                else {
+                    Player2_Character.cancelSelectionBorder();
+                    Player2_Weapon.setSelectionBorder();
+                }
+
+
+            }
+
+            int[]PlayerStates =Csmodel.getPlayerStates();
+            if(event.getCode()==KeyCode.S){
+                if(PlayerStates[0]==0){
+                    Player1_Character.PressDownChangeimg();
+                }
+                else{Player1_Weapon.PressDownChangeimg();}
+            }
+            if(event.getCode()==KeyCode.W){
+                if(PlayerStates[0]==0){
+                    Player1_Character.PressUpChangeimg();
+                }
+                else{Player1_Weapon.PressUpChangeimg();}
+            };
+            if(event.getCode()==KeyCode.DOWN){
+                if(PlayerStates[1]==0){
+                    Player2_Character.PressDownChangeimg();
+                }
+                else{Player2_Weapon.PressDownChangeimg();}
+            };
+            if(event.getCode()==KeyCode.UP){
+                if(PlayerStates[1]==0){
+                    Player2_Character.PressUpChangeimg();
+                }
+                else{Player2_Weapon.PressUpChangeimg();}
+            };
+        });
+
+        setOnKeyReleased(event -> {
+            if(event.getCode()==KeyCode.S){
+                Player1_Character.ReleaseDownChangeimg();
+                Player1_Weapon.ReleaseDownChangeimg();
+            };
+            if(event.getCode()==KeyCode.W){
+                Player1_Character.ReleaseUpChangeimg();
+                Player1_Weapon.ReleaseUpChangeimg();
+            };
+            if(event.getCode()==KeyCode.DOWN){
+                Player2_Character.ReleaseDownChangeimg();
+                Player2_Weapon.ReleaseDownChangeimg();
+            };
+            if(event.getCode()==KeyCode.UP){
+                Player2_Character.ReleaseUpChangeimg();
+                Player2_Weapon.ReleaseUpChangeimg();
+            };
+        });
 
 
         this.setGridLinesVisible(false);
 
     }
 
-    private void keyDown(KeyEvent event, clothChanger clothChanger){
-        if (event.getCode() == KeyCode.W) {
-            CScontroller.setCharactermode();
-            CScontroller.up_to_downChangeView(clothChanger);
-        }
-        if (event.getCode() == KeyCode.S) {
-            CScontroller.setCharactermode();
-            CScontroller.down_to_upChangeView(clothChanger);
-        }
 
-    }
-     private void keyUp(KeyEvent event, clothChanger clothChanger){
-         if(event.getCode()==KeyCode.W){
-             CScontroller.upkeyreleaseView(clothChanger);
-         }
-         if(event.getCode()==KeyCode.S){
-             CScontroller.downkeyreleaseView(clothChanger);
-         }
-     }
 
 
 
