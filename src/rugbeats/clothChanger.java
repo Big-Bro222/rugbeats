@@ -1,9 +1,14 @@
 package rugbeats;
 
 import javafx.event.EventHandler;
+import javafx.scene.Group;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -14,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class clothChanger extends VBox{
+
     private StackPane ImgStack;
     private List<Image> ImgList;
     private ImageView uparrow;
@@ -32,6 +38,10 @@ public class clothChanger extends VBox{
         uparrowImg=new Image("rugbeats/img/uparrow.png");
         downarrowImg=new Image("rugbeats/img/downarrow.png");
         getclothbox(ImgList);
+    }
+
+    //generate the switch bar for the character
+    //To do:change the mouseclick event into key event.
     public void getclothbox(List<Image> ImgList){
 
         ImgStackView=new ImageView(ImgList.get(0));
@@ -39,6 +49,8 @@ public class clothChanger extends VBox{
         ImgStackView.setFitWidth(imgsize);
 
         ImgStack =new StackPane(ImgStackView);
+
+
         uparrow= new ImageView();
         uparrow.setImage(uparrowImg);
         uparrow.setPreserveRatio(true);
