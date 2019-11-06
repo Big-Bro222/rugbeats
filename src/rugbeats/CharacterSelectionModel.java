@@ -7,6 +7,7 @@ public class CharacterSelectionModel {
     }
     int[] getPlayerStates(){
         return PlayerStates;
+    }
 
 
     void setPlayerStates(int Playerindex){

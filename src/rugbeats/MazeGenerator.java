@@ -102,7 +102,9 @@ public class MazeGenerator extends GridPane {
                 btn.setOnDragExited(new EventHandler<DragEvent>() {
                     public void handle(DragEvent event) {
                         /* mouse moved away, remove the graphical cues */
+
                         event.consume();
+                    }
                 });
                 btn.setOnMousePressed(event -> {
                     if(buttonnum[ro][co]==0){
