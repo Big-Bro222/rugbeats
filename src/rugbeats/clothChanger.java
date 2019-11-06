@@ -1,14 +1,9 @@
 package rugbeats;
 
 import javafx.event.EventHandler;
-import javafx.scene.Group;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -20,16 +15,12 @@ import java.util.List;
 
 public class clothChanger extends VBox{
 
-    private VBox p1_hat;
+<<<<<<< HEAD
+=======
 
-    private ImageView img1;
-    private ImageView img2;
-    private ImageView img3;
-    private int index;
-    private EventHandler changeimg1;
+>>>>>>> 21a61c9e5f7bdafd46c09e71fa51c99c9ef61363
     private StackPane ImgStack;
     private List<Image> ImgList;
-    private Polygon triangle;
     private ImageView uparrow;
     private ImageView downarrow;
     private Image uparrow_clicked;
@@ -46,10 +37,6 @@ public class clothChanger extends VBox{
         uparrowImg=new Image("rugbeats/img/uparrow.png");
         downarrowImg=new Image("rugbeats/img/downarrow.png");
         getclothbox(ImgList);
-    }
-
-    //generate the switch bar for the character
-    //To do:change the mouseclick event into key event.
     public void getclothbox(List<Image> ImgList){
 
         ImgStackView=new ImageView(ImgList.get(0));
@@ -57,8 +44,6 @@ public class clothChanger extends VBox{
         ImgStackView.setFitWidth(imgsize);
 
         ImgStack =new StackPane(ImgStackView);
-
-
         uparrow= new ImageView();
         uparrow.setImage(uparrowImg);
         uparrow.setPreserveRatio(true);
@@ -123,6 +108,12 @@ public class clothChanger extends VBox{
     public void cancelSelectionBorder(){
         ImgStack.setBorder(null);
     }
+
+    public ImageView getImg()
+    {
+        return ImgStackView;
+    }
+
 
 
 }

@@ -9,9 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 
 
 class StartPage {
@@ -23,8 +21,8 @@ class StartPage {
   private Canvas canvas = new Canvas();
   private Label startLbl=new Label("Stay Closer to Start Game");
   GraphicsContext gc = canvas.getGraphicsContext2D();
-  Player player1 = new Player("Morty", GLOBAL.GRID_COLS-11, GLOBAL.GRID_ROWS/2-5);
-  Player player2 = new Player("Alex", 11, GLOBAL.GRID_ROWS/2-5);
+  Player player1 = new Player("Morty", GLOBAL.gGridCols -11, GLOBAL.gGridRows /2-5);
+  Player player2 = new Player("Alex", 11, GLOBAL.gGridRows /2-5);
 
 
   private float progress = 0;
@@ -74,7 +72,7 @@ class StartPage {
     root.getChildren().addAll(p1Keys);
     canvas.widthProperty().bind(root.widthProperty());
     canvas.heightProperty().bind(root.heightProperty());
-    _scene = new Scene(root, GLOBAL.WINDOW_W, GLOBAL.WINDOW_H);// preferred geometry
+    _scene = new Scene(root, GLOBAL.gWindowW, GLOBAL.gWindowH);// preferred geometry
     _scene.setOnKeyPressed(evt -> {
       System.out.println(evt);
       update(evt);
@@ -90,7 +88,7 @@ class StartPage {
     }.start();
     // calc initial progress
     progress = Utils.clamp(1 -
-                    player1.getDist(player2.getX(), player2.getY()) / GLOBAL.WINDOW_W
+                    player1.getDist(player2.getX(), player2.getY()) / GLOBAL.gWindowW
             , 0, 1);
   }
 
@@ -101,7 +99,7 @@ class StartPage {
     player2.handleKey(kevt);
     player1.handleKey(kevt);
     progress = Utils.clamp(1 -
-                    player1.getDist(player2.getX(), player2.getY()) / GLOBAL.WINDOW_W
+                    player1.getDist(player2.getX(), player2.getY()) / GLOBAL.gWindowW
             , 0, 1);
     System.out.println(progress);
     String colorStr = Utils.hexColor(
@@ -114,7 +112,7 @@ class StartPage {
   void draw() {
     // clamp should be added
     gc.setFill(Utils.colorInterplator(GLOBAL.START_CLR,GLOBAL.END_CLR, progress));
-    gc.fillRect(0, 0, GLOBAL.WINDOW_W, GLOBAL.WINDOW_H);
+    gc.fillRect(0, 0, GLOBAL.gWindowW, GLOBAL.gWindowH);
     gc.setFill(Color.RED);
     player1.draw(gc);
     player2.draw(gc);

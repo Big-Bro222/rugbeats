@@ -1,29 +1,16 @@
 package rugbeats;
-import com.sun.media.jfxmedia.events.PlayerStateEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.geometry.VPos;
-import javafx.scene.Group;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
+
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Characterselection extends GridPane {
@@ -75,6 +62,7 @@ public class Characterselection extends GridPane {
 
 
 
+
         // set up arraylist for imageview
         Character_p1=new Character_layout();
         Label p1= new Label("P1");
@@ -90,6 +78,11 @@ public class Characterselection extends GridPane {
                 "-fx-font-size:15;");
         next.setPrefSize(100,50);
         next.setOnMouseClicked(e->{
+
+            GLOBAL.gPlayer1Img.add(0,Player1_Character.getImg());
+            GLOBAL.gPlayer1Img.add(1,Player1_Weapon.getImg());
+            GLOBAL.gPlayer2Img.add(0,Player2_Character.getImg());
+            GLOBAL.gPlayer2Img.add(1,Player2_Weapon.getImg());
             GLOBAL.fxinstance.nextScene();
         });
         GridPane.setHalignment(next, HPos.CENTER);
@@ -117,6 +110,9 @@ public class Characterselection extends GridPane {
 
 
         setOnKeyPressed(event -> {
+            if(event.getCode()==KeyCode.ENTER){
+                next.setStyle("-fx-base:orange");
+            }
             if(event.getCode()==KeyCode.A||event.getCode()==KeyCode.D){
                CScontroller.setPlayerStates(0);
                int[]PlayerStates =Csmodel.getPlayerStates();
@@ -146,7 +142,6 @@ public class Characterselection extends GridPane {
 
 
             }
-
             int[]PlayerStates =Csmodel.getPlayerStates();
             if(event.getCode()==KeyCode.S){
                 if(PlayerStates[0]==0){
@@ -175,6 +170,13 @@ public class Characterselection extends GridPane {
         });
 
         setOnKeyReleased(event -> {
+            if(event.getCode()==KeyCode.ENTER){
+                GLOBAL.gPlayer1Img.add(0,Player1_Character.getImg());
+                GLOBAL.gPlayer1Img.add(1,Player1_Weapon.getImg());
+                GLOBAL.gPlayer2Img.add(0,Player2_Character.getImg());
+                GLOBAL.gPlayer2Img.add(1,Player2_Weapon.getImg());
+                GLOBAL.fxinstance.nextScene();
+            }
             if(event.getCode()==KeyCode.S){
                 Player1_Character.ReleaseDownChangeimg();
                 Player1_Weapon.ReleaseDownChangeimg();
@@ -197,6 +199,7 @@ public class Characterselection extends GridPane {
         this.setGridLinesVisible(false);
 
     }
+
 
 
 

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Rugbeats:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Rugbeats_jar</output-path>
+    <root id="archive" name="Rugbeats.jar">
+      <element id="module-output" name="Rugbeats" />
+    </root>
+  </artifact>
+</component>
