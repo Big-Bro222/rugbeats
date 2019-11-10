@@ -2,13 +2,19 @@ package rugbeats;
 
 import javafx.application.Application;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.image.Image;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class Main extends Application {
-  private Scene[] _scenes = new Scene[3];
+  private Scene[] _scenes = new Scene[4];
   int currentScene = 0;
   Stage _stage;
 
@@ -45,15 +51,17 @@ public class Main extends Application {
 //=======
     _scenes[1] =  new Scene(new Characterselection(), GLOBAL.WINDOW_W, GLOBAL.WINDOW_H);
     _scenes[2] = new Scene(new MazeGenerator(),GLOBAL.WINDOW_W, GLOBAL.WINDOW_H);
+    _scenes[3] = new Scene(new GameoverScene(),GLOBAL.WINDOW_W,GLOBAL.WINDOW_H);
     System.out.println("sfds");
 
+    for(int i=0;i<_scenes.length;i++){
+        _scenes[i].getStylesheets().add(getClass().getResource("Style.css").toExternalForm());
+    }
     primaryStage.setScene(_scenes[0]);
     primaryStage.setTitle("Rugbeats");
+    //primaryStage.setResizable(false);
     primaryStage.show();
-//>>>>>>> caef0672099cebba31172561287e5e2c1b9b3faa
 }
-
-
 
 
   public void nextScene(){

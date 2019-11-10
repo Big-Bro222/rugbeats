@@ -1,6 +1,7 @@
 package rugbeats;
 
 import javafx.animation.AnimationTimer;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -46,6 +47,7 @@ class StartPage {
     root.getChildren().add(canvas);
 //    root.getChildren().add(startBtn);
     startLbl.setStyle("-fx-font-size:40;");
+    startLbl.setAlignment(Pos.CENTER);
     root.getChildren().add(startLbl);
     p1Keys[3].setLayoutX(20);
     p1Keys[3].setLayoutY(30);

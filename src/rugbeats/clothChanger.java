@@ -1,6 +1,7 @@
 package rugbeats;
 
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -31,12 +32,12 @@ public class clothChanger extends VBox{
     private ImageView ImgStackView;
     int imgsize;
     public clothChanger(List<Image> ImgList) {
-        imgsize=100;
+        imgsize=70;
         this.ImgList=ImgList;
-        uparrow_clicked=new Image("rugbeats/img/uparrow_clicked.png");
-        downarrow_clicked=new Image("rugbeats/img/downarrow_clicked.png");
-        uparrowImg=new Image("rugbeats/img/uparrow.png");
-        downarrowImg=new Image("rugbeats/img/downarrow.png");
+        uparrow_clicked=new Image("rugbeats/img/Up_arrow_Clickedhdpi.png");
+        downarrow_clicked=new Image("rugbeats/img/Down_arrow_Clickedhdpi.png");
+        uparrowImg=new Image("rugbeats/img/Up_arrow_Unclickedhdpi.png");
+        downarrowImg=new Image("rugbeats/img/Down_arrow_Unclickedhdpi.png");
         getclothbox(ImgList);
     }
 
@@ -46,15 +47,19 @@ public class clothChanger extends VBox{
 
         ImgStackView=new ImageView(ImgList.get(0));
         ImgStackView.setFitHeight(imgsize);
-        ImgStackView.setFitWidth(imgsize);
+        ImgStackView.setPreserveRatio(true);
 
         ImgStack =new StackPane(ImgStackView);
+        ImgStack.setPadding(new Insets(20,0,20,0));
+       // ImgStack.setPrefWidth(imgsize);
+
+
 
 
         uparrow= new ImageView();
         uparrow.setImage(uparrowImg);
         uparrow.setPreserveRatio(true);
-        uparrow.setFitWidth(100);
+        uparrow.setFitWidth(150);
         Button triangleup= new Button("",uparrow);
         triangleup.setStyle("-fx-background-insets:0.0;"+"-fx-background-color: transparent;");
 
@@ -62,7 +67,7 @@ public class clothChanger extends VBox{
         downarrow= new ImageView();
         downarrow.setImage(downarrowImg);
         downarrow.setPreserveRatio(true);
-        downarrow.setFitWidth(100);
+        downarrow.setFitWidth(150);
         Button triangledown= new Button("",downarrow);
         triangledown.setStyle("-fx-background-insets:0.0;"+"-fx-background-color: transparent;");
 
@@ -81,8 +86,9 @@ public class clothChanger extends VBox{
         ImgList=ImgstorageList;
         ImgStackView=new ImageView(ImgList.get(0));
         ImgStackView.setFitHeight(imgsize);
-        ImgStackView.setFitWidth(imgsize);
+        ImgStackView.setPreserveRatio(true);
         ImgStack.getChildren().add(ImgStackView);
+
         downarrow.setImage(downarrow_clicked);
     }
 
@@ -98,8 +104,9 @@ public class clothChanger extends VBox{
         ImgList=ImgstorageList;
         ImgStackView=new ImageView(ImgList.get(0));
         ImgStackView.setFitHeight(imgsize);
-        ImgStackView.setFitWidth(imgsize);
+        ImgStackView.setPreserveRatio(true);
         ImgStack.getChildren().add(ImgStackView);
+
         uparrow.setImage(uparrow_clicked);
     }
 
@@ -110,10 +117,16 @@ public class clothChanger extends VBox{
         downarrow.setImage(downarrowImg);
     }
     public void setSelectionBorder(){
-        ImgStack.setBorder(new Border(new BorderStroke(Color.YELLOW, BorderStrokeStyle.SOLID, null, new BorderWidths(5))));
+        BackgroundImage bgselected= new BackgroundImage(new Image("rugbeats/img/Backgroundhdpi.png"),BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                new BackgroundSize(1.0, 1.0, true, true, false, false));
+        ImgStack.setBackground(new Background(bgselected));
+        //ImgStack.setBorder(new Border(new BorderStroke(Color.YELLOW, BorderStrokeStyle.SOLID, null, new BorderWidths(5))));
     }
     public void cancelSelectionBorder(){
-        ImgStack.setBorder(null);
+        //ImgStack.setBorder(new Border(new BorderStroke(Color.TRANSPARENT, BorderStrokeStyle.SOLID, null, new BorderWidths(5))));
+        BackgroundImage bgselected= new BackgroundImage(new Image("rugbeats/img/Background_selectedhdpi.png"),BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                new BackgroundSize(1.0, 1.0, true, true, false, false));
+        ImgStack.setBackground(new Background(bgselected));
     }
 
     public ImageView getImg()
