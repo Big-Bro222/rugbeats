@@ -1,0 +1,19 @@
+#Character_layout{
+    -fx-background-color: black;
+    -fx-max-height: 10px;
+    -fx-padding: 10,100,10,10;
+}
+
+#gameoverScene,#Characterselectionbg{
+    -fx-background-image: url("img/floor_1.png"), url("img/floor_2.png"), url("img/floor_3.png"), url("img/floor_4.png");
+    -fx-background-position: 0 0, 0 20, 20 0, 20 20;
+    -fx-background-repeat: repeat repeat;
+    -fx-background-size: 20 20, 20 20, 20 20, 20 20;
+}
+#instructions{
+    -fx-background-color:#A95B58;
+    -fx-padding: 50,50,50,50;
+    -fx-alignment:center,center;
+    -fx-spacing: 200;
+}
+
