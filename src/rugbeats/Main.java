@@ -37,22 +37,10 @@ public class Main extends Application {
     dRoot.getChildren().add(canvas);
     StartPage startPage = new StartPage(this);
 
-    final long startNanoTime = System.nanoTime();
-//    new AnimationTimer() {
-//      public void handle(long currentNanoTime) {
-//        startPage.draw();
-//      }
-//    }.start();
-
-
     _scenes[0] = startPage.getScene();
-//<<<<<<< HEAD
-//    _scenes[1] =  new Scene(new Characterselection(), GLOBAL.gWindowW, GLOBAL.gWindowH);
-//=======
     _scenes[1] =  new Scene(new Characterselection(), GLOBAL.WINDOW_W, GLOBAL.WINDOW_H);
     _scenes[2] = new Scene(new MazeGenerator(),GLOBAL.WINDOW_W, GLOBAL.WINDOW_H);
     _scenes[3] = new Scene(new GameoverScene(),GLOBAL.WINDOW_W,GLOBAL.WINDOW_H);
-    System.out.println("sfds");
 
     for(int i=0;i<_scenes.length;i++){
         _scenes[i].getStylesheets().add(getClass().getResource("Style.css").toExternalForm());
