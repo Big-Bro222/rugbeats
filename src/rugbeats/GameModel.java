@@ -53,9 +53,14 @@ public class GameModel {
     }
   }
 
+  void initGame() {
+    chestX = _cols / 2;
+    chestY = _rows / 2;
+  }
+
   void calcChestPos() {
-    int newX = chestX + (int) (Math.random() * 4 + 2) * (Math.random() > 0.5 ? 1 : -1);
-    int newY = chestY + (int) (Math.random() * 4 + 2) * (Math.random() > 0.5 ? 1 : -1);
+    int newX = chestX + (int) (Math.random() * 2 + 2) * (Math.random() > 0.5 ? 1 : -1);
+    int newY = chestY + (int) (Math.random() * 2 + 2) * (Math.random() > 0.5 ? 1 : -1);
     if (insideCheck(newX, newY) && !testWall(newX, newY)) {
       chestX = newX;
       chestY = newY;

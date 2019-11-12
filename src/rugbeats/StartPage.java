@@ -1,11 +1,9 @@
 package rugbeats;
 
 import javafx.animation.AnimationTimer;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -16,7 +14,7 @@ import javafx.scene.paint.Color;
 
 class StartPage {
   Image[] imgs = new Image[3];
-  float[] transparency = {1, 1};
+  //  float[] transparency = {1, 1};
   private Main _app;
   private Scene _scene;
   private Pane root = new Pane();
@@ -24,8 +22,8 @@ class StartPage {
   private Label startLbl = new Label("Images: 0x72.itch.io\n" +
           "Music: icons8 & musmus");
   GraphicsContext gc = canvas.getGraphicsContext2D();
-  Player player1 = new Player("Rick", 11, GLOBAL.GRID_ROWS / 2 - 5);
-  Player player2 = new Player("Morty", GLOBAL.GRID_COLS - 11, GLOBAL.GRID_ROWS / 2 - 5);
+  Player player1 = new Player("Ricky", 2, 0);
+  Player player2 = new Player("Morty", GLOBAL.GRID_COLS - 3, GLOBAL.GRID_ROWS - 4);
 
 
   private float progress = 0;
@@ -45,6 +43,10 @@ class StartPage {
     player2.setKeys(KeyCode.UP, KeyCode.DOWN, KeyCode.LEFT, KeyCode.RIGHT);
     player1.setFreeMode(true);
     player2.setFreeMode(true);
+    player2.setAnim((int) (Math.random() * 6));
+    player2.setWeapon((int) (Math.random() * 6));
+    player1.setAnim((int) (Math.random() * 6));
+    player1.setWeapon((int) (Math.random() * 6));
     init();// init GUI
   }
 
@@ -57,9 +59,10 @@ class StartPage {
     System.out.println("init start page");
     root.getChildren().add(canvas);
 //    root.getChildren().add(startBtn);
-    startLbl.setStyle("-fx-font-size:14;");
+    startLbl.setStyle("-fx-font-size:18;");
+    startLbl.setTextFill(Color.WHITE);
 //    startLbl.setAlignment(Pos.CENTER);
-    startLbl.setLayoutY(GLOBAL.WINDOW_H-100);
+    startLbl.setLayoutY(GLOBAL.WINDOW_H - 100);
     startLbl.setLayoutX(30);
     root.getChildren().add(startLbl);
 
@@ -67,7 +70,6 @@ class StartPage {
     canvas.heightProperty().bind(root.heightProperty());
     _scene = new Scene(root, GLOBAL.WINDOW_W, GLOBAL.WINDOW_H);// preferred geometry
     _scene.setOnKeyPressed(evt -> {
-      System.out.println(evt);
       update(evt);
     });
     _scene.setOnKeyReleased(evt -> {
@@ -76,8 +78,9 @@ class StartPage {
     final long startNanoTime = System.nanoTime();// not used yet
     new AnimationTimer() {
       public void handle(long currentNanoTime) {
-        if (progress < newProgress) {
-          progress += 0.005f;
+        if (Math.abs(progress - newProgress) > 0.03f) {
+          progress += (newProgress - progress) / 100;
+          progress = Utils.clamp(progress, 0, 1);
         }
         draw();
       }
@@ -89,7 +92,10 @@ class StartPage {
   }
 
   void update(KeyEvent kevt) {
-    if (progress > 0.95) {
+    if (kevt.getCode() == KeyCode.SPACE) {
+      _app.nextScene();
+    }
+    if (newProgress > 0.95) {
       _app.nextScene();
     }
 
@@ -114,8 +120,8 @@ class StartPage {
 //    gc.setFill(Color.RED);
     player1.draw(gc);
     player2.draw(gc);
-    gc.drawImage(imgs[0], player1.getX()-imgs[0].getWidth()/2, player1.getY()+50);
-    gc.drawImage(imgs[1], player2.getX()-imgs[0].getWidth()/2, player2.getY()+50);
+    gc.drawImage(imgs[0], player1.getX() - imgs[0].getWidth() / 2+GLOBAL.GRID_SIZE/3, player1.getY() + 50);
+    gc.drawImage(imgs[1], player2.getX() - imgs[0].getWidth() / 2+GLOBAL.GRID_SIZE/3, player2.getY() + 50);
     gc.drawImage(imgs[2], GLOBAL.WINDOW_W / 2 - imgs[2].getWidth() / 2, 50);
     _app.gamePage._controller.drawBeat(gc, AudioManager.getInstance()._elapsedSec);
 //    gc.lineTo(player1.getX(), player1.getY());

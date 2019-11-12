@@ -61,29 +61,7 @@ public class Player {
   }
 
   void setAnim(int index) {
-    switch (index) {
-      case 0:
-        animName = AnimName.Big;
-        break;
-      case 1:
-        animName = AnimName.Knight;
-        break;
-      case 2:
-        animName = AnimName.Man;
-        break;
-      case 3:
-        animName = AnimName.Ninja;
-        break;
-      case 4:
-        animName = AnimName.Wood;
-        break;
-      case 5:
-        animName = AnimName.Wiz;
-        break;
-      default:
-        animName = AnimName.Big;
-        break;
-    }
+   animName= AniManager.getInstance().getAnimName(index);
   }
 
   void setWeapon(int index) {
@@ -107,8 +85,8 @@ public class Player {
 
   void draw(GraphicsContext gc) {
     gc.setFill(new Color(1, 1, 1, 1));
-    gc.fillText(name, x, y + 7 + gridSize * 0.6f);
-    gc.drawImage(AniManager.getInstance().getFrame(animName), x, y, gridSize * 0.6f, gridSize * 0.6f);
+    gc.fillText(name, x, y + 7 + gridSize * GLOBAL.PLAYER_SCALE);
+    gc.drawImage(AniManager.getInstance().getFrame(animName), x, y, gridSize * GLOBAL.PLAYER_SCALE, gridSize * GLOBAL.PLAYER_SCALE);
     gc.drawImage(AniManager.getInstance().getWeapon(weaponIndex), x, y);
     drawMiss(gc);
   }
@@ -261,11 +239,13 @@ public class Player {
       if (_controller._p1.name == name) {
         if (gridX == cols - 1 && gridY == rows - 1) {
           _controller._app.nextScene();
+          GLOBAL.WINNER=1;
         }
       }
       if (_controller._p2.name == name) {
         if (gridX == 0 && gridY == 0) {
           _controller._app.nextScene();
+          GLOBAL.WINNER=2;
         }
       }
     }

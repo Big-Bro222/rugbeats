@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import rugbeats.animation.AniManager;
 
 
 public class GameoverScene extends GridPane {
@@ -18,7 +19,7 @@ public class GameoverScene extends GridPane {
   BackgroundImage restartgame_selected;
   BackgroundImage restartgame_unselected;
   BackgroundImage restartgame_pressed;
-  Character_layout Character_p1;
+  Character_layout winner;
   Main _app;
 
   void setApp(Main app) {
@@ -26,7 +27,7 @@ public class GameoverScene extends GridPane {
   }
 
   public GameoverScene(Main app) {
-      _app=app;
+    _app = app;
     this.setId("gameoverScene");
     quitgame_selected = new BackgroundImage(new Image("rugbeats/img/quit game selected.png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
             new BackgroundSize(1.0, 1.0, true, true, false, false));
@@ -45,11 +46,27 @@ public class GameoverScene extends GridPane {
 
     restartgame_selected = new BackgroundImage(new Image("rugbeats/img/restart game selected.png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
             new BackgroundSize(1.0, 1.0, true, true, false, false));
-    Character_p1 = new Character_layout(GLOBAL.gPlayer1Img.get(0).getImage(), GLOBAL.gPlayer1Img.get(1).getImage());
+//    winner = new Character_layout(GLOBAL.gPlayer1Img.get(0).getImage(), GLOBAL.gPlayer1Img.get(1).getImage());
+    winner = new Character_layout(
+            GLOBAL.WINNER == 1 ?
+                    AniManager.getInstance().getFrame(AniManager.getInstance().getAnimName(GLOBAL.p1))
+                    : AniManager.getInstance().getFrame(AniManager.getInstance().getAnimName(GLOBAL.p2))
+            ,
+            GLOBAL.WINNER == 1 ?
+                    AniManager.getInstance().getWeapon(GLOBAL.pw1)
+                    : AniManager.getInstance().getWeapon(GLOBAL.pw2));
     intialUI();
 
   }
 
+  void updateWinner() {
+    winner.setselectCharacter(GLOBAL.WINNER == 1 ?
+            AniManager.getInstance().getFrame(AniManager.getInstance().getAnimName(GLOBAL.p1))
+            : AniManager.getInstance().getFrame(AniManager.getInstance().getAnimName(GLOBAL.p2)));
+    winner.setselectWeapon(GLOBAL.WINNER == 1 ?
+            AniManager.getInstance().getWeapon(GLOBAL.pw1)
+            : AniManager.getInstance().getWeapon(GLOBAL.pw2));
+  }
 
   void intialUI() {
     Button restartGame = new Button();
@@ -97,12 +114,12 @@ public class GameoverScene extends GridPane {
 
 
     this.add(Controlbuttons, 0, 1);
-    Character_p1.setMaxWidth(200);
+    winner.setMaxWidth(200);
 
     this.setPadding(new Insets(100, 100, 100, 150));
-    this.add(Character_p1, 0, 0);
+    this.add(winner, 0, 0);
     ImageView thanks = new ImageView(new Image("rugbeats/img/Thanks.png"));
-    GridPane.setHalignment(Character_p1, HPos.CENTER);
+    GridPane.setHalignment(winner, HPos.CENTER);
     this.setVgap(20);
     this.add(thanks, 0, 2);
     this.setAlignment(Pos.CENTER);

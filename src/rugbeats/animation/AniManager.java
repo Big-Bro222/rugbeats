@@ -50,6 +50,33 @@ public Image getWeapon(int i){
     }
   }
 
+  public AnimName getAnimName(int index){
+    AnimName name;
+    switch (index) {
+      case 0:
+        name = AnimName.Big;
+        break;
+      case 1:
+        name = AnimName.Knight;
+        break;
+      case 2:
+        name = AnimName.Man;
+        break;
+      case 3:
+        name = AnimName.Ninja;
+        break;
+      case 4:
+        name = AnimName.Wood;
+        break;
+      case 5:
+        name = AnimName.Wiz;
+        break;
+      default:
+        name = AnimName.Big;
+        break;
+    }
+    return name;
+  }
 
   public Image getFrame(AnimName name) {
     return _anims.get(name).getFrame((System.nanoTime() - _startTime) / 1000000000.0f);

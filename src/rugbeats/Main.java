@@ -14,7 +14,7 @@ public class Main extends Application {
   int currentScene = 0;
   Stage _stage;
   GamePage gamePage;
-//  GameoverScene gameoverScene;
+  GameoverScene overScene;
 
   public static void main(String[] args) {
     launch(args);
@@ -36,7 +36,7 @@ public class Main extends Application {
     dRoot.getChildren().add(canvas);
     StartPage startPage = new StartPage(this);
     gamePage = new GamePage(this);
-
+    overScene= new GameoverScene(this);
 //    gameoverScene = new GameoverScene();
 //    gameoverScene.setApp(this);
 
@@ -44,7 +44,7 @@ public class Main extends Application {
     _scenes[1] = new Scene(new Characterselection(), GLOBAL.WINDOW_W, GLOBAL.WINDOW_H);
     _scenes[2] = new Scene(new MazeGenerator(), GLOBAL.WINDOW_W, GLOBAL.WINDOW_H);
     _scenes[3] = gamePage.getScene();
-    _scenes[4] = new Scene(new GameoverScene(this), GLOBAL.WINDOW_W, GLOBAL.WINDOW_H);
+    _scenes[4] = new Scene(overScene, GLOBAL.WINDOW_W, GLOBAL.WINDOW_H);
     for (int i = 0; i < 4; i++) {
       _scenes[i].setOnMouseClicked(event -> {
         if (event.getButton()== MouseButton.MIDDLE){
@@ -62,22 +62,29 @@ public class Main extends Application {
     primaryStage.setTitle("Rugbeats");
     //primaryStage.setResizable(false);
     primaryStage.show();
-    AudioManager.getInstance().play(1);
+    AudioManager.getInstance().play(0); // easy song at start
   }
 
-  void gotoGame() {
-    currentScene = 3;
-    gamePage.initGame();
+  void gotoScene(int index){
+    currentScene=index;
     _stage.setScene(_scenes[currentScene]);
     System.out.println("loaded scene: " + currentScene);
+  }
+  void gotoHome(){
+    gotoScene(0);
+  }
+  void gotoGame() {
+    gamePage.initGame();
+    gotoScene(3);
   }
 
   public void nextScene() {
     currentScene++;
     if (currentScene == 3) {
       gamePage.initGame();
+    }else if(currentScene==4){
+      overScene.updateWinner();
     }
-    _stage.setScene(_scenes[currentScene]);
-    System.out.println("loaded scene: " + currentScene);
+    gotoScene(currentScene);
   }
 }
