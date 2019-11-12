@@ -1,22 +1,17 @@
 package rugbeats;
 
 import javafx.application.Application;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.image.Image;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.io.IOException;
+import rugbeats.animation.AniManager;
 
 public class Main extends Application {
-  private Scene[] _scenes = new Scene[4];
+  private Scene[] _scenes = new Scene[5];
   int currentScene = 0;
   Stage _stage;
+  GamePage gamePage;
 
   public static void main(String[] args) {
     launch(args);
@@ -25,8 +20,9 @@ public class Main extends Application {
   @Override
   public void init() throws Exception {
     super.init();
-    GLOBAL.fxinstance=this;
-
+    GLOBAL.fxinstance = this;
+    AniManager.getInstance().loadImages();
+    AudioManager.getInstance().loadMusic();
   }
 
   @Override
@@ -36,26 +32,32 @@ public class Main extends Application {
     Canvas canvas = new Canvas(512, 256);
     dRoot.getChildren().add(canvas);
     StartPage startPage = new StartPage(this);
+    gamePage = new GamePage(this);
 
     _scenes[0] = startPage.getScene();
-    _scenes[1] =  new Scene(new Characterselection(), GLOBAL.WINDOW_W, GLOBAL.WINDOW_H);
-    _scenes[2] = new Scene(new MazeGenerator(),GLOBAL.WINDOW_W, GLOBAL.WINDOW_H);
-    _scenes[3] = new Scene(new GameoverScene(),GLOBAL.WINDOW_W,GLOBAL.WINDOW_H);
+    _scenes[1] = new Scene(new Characterselection(), GLOBAL.WINDOW_W, GLOBAL.WINDOW_H);
+    _scenes[2] = new Scene(new MazeGenerator(), GLOBAL.WINDOW_W, GLOBAL.WINDOW_H);
+    _scenes[3] = gamePage.getScene();
+    _scenes[4] = new Scene(new GameoverScene(), GLOBAL.WINDOW_W, GLOBAL.WINDOW_H);
 
-    for(int i=0;i<_scenes.length;i++){
-        _scenes[i].getStylesheets().add(getClass().getResource("Style.css").toExternalForm());
+    for (int i = 0; i < _scenes.length; i++) {
+      _scenes[i].getStylesheets().add(getClass().getResource("Style.css").toExternalForm());
     }
+
     primaryStage.setScene(_scenes[0]);
     primaryStage.setTitle("Rugbeats");
     //primaryStage.setResizable(false);
     primaryStage.show();
-}
+    AudioManager.getInstance().play(2);
+  }
 
 
-  public void nextScene(){
+  public void nextScene() {
     currentScene++;
-
+    if (currentScene == 3) {
+      gamePage.initGame();
+    }
     _stage.setScene(_scenes[currentScene]);
-    System.out.println("loaded scene: "+currentScene);
+    System.out.println("loaded scene: " + currentScene);
   }
 }

@@ -14,9 +14,11 @@ public class MazeGenerator extends BorderPane {
   private int row;
   private int col;
   private Image pen;
+  private BackgroundImage home;
   private GridPane mazegird;
   private BackgroundImage floor1;
   private BackgroundImage floor2;
+  private BackgroundImage[] floorImg = new BackgroundImage[5];
   private BackgroundImage wall;
   int[][] mazeTable = new int[GLOBAL.GRID_ROWS][GLOBAL.GRID_COLS];
 
@@ -28,11 +30,17 @@ public class MazeGenerator extends BorderPane {
 //        row=5;
 //        col=7;
     mazegird = new GridPane();
+    for (int i = 0; i < 5; i++) {
+      floorImg[i] = new BackgroundImage(new Image("rugbeats/img/floor_" + (i + 1) + ".png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+              new BackgroundSize(1.0, 1.0, true, true, false, false));
+    }
     floor1 = new BackgroundImage(new Image("rugbeats/img/floor_1.png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
             new BackgroundSize(1.0, 1.0, true, true, false, false));
     floor2 = new BackgroundImage(new Image("rugbeats/img/floor_2.png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
             new BackgroundSize(1.0, 1.0, true, true, false, false));
     wall = new BackgroundImage(new Image("rugbeats/img/wall.png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+            new BackgroundSize(1.0, 1.0, true, true, false, false));
+    home = new BackgroundImage(new Image("rugbeats/img/home.png"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
             new BackgroundSize(1.0, 1.0, true, true, false, false));
     initalUI();
   }
@@ -66,11 +74,16 @@ public class MazeGenerator extends BorderPane {
     for (int i = 0; i < row; ++i) {
       for (int j = 0; j < col; ++j) {
         Button btn = new Button();
-        if ((i + j) % 2 == 0) {
-          btn.setBackground(new Background(floor1));
-        } else {
-          btn.setBackground(new Background(floor2));
+        btn.setBackground(new Background(floorImg[(int)(Math.random()*4)]));
+        if ((i == 0 && j == 0)
+                || (j == col - 1 && i == row - 1)) {
+          btn.setBackground(new Background(home));
         }
+//        if ((i + j) % 2 == 0) {
+//          btn.setBackground(new Background(floor1));
+//        } else {
+//          btn.setBackground(new Background(floor2));
+//        }
         btn.setPrefSize(GLOBAL.GRID_SIZE, GLOBAL.GRID_SIZE);
         int ro = i;
         int co = j;
@@ -125,6 +138,10 @@ public class MazeGenerator extends BorderPane {
           }
         });
         btn.setOnMousePressed(event -> {
+          if ((co == 0 && ro == 0)
+                  || (co == col - 1 && ro == row - 1)) {
+            return;
+          }
           if (mazeTable[ro][co] == 0) {
             btn.setBackground(new Background(wall));
             mazeTable[ro][co] = 1;

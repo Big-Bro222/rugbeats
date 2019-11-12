@@ -20,10 +20,12 @@ class StartPage {
   private Button[] p1Keys={new Button("W"),new Button("S"),new Button("A"),new Button("D")};
   private Button[] p2Keys={new Button("▲"),new Button("▼"),new Button("◄"),new Button("►")};
   private Canvas canvas = new Canvas();
-  private Label startLbl=new Label("Stay Closer to Start Game");
+  private Label startLbl=new Label("Stay Closer to Start Game\nCredits:\n" +
+          "Images: 0x72.itch.io\n" +
+          "Music: icons8 & musmus");
   GraphicsContext gc = canvas.getGraphicsContext2D();
-  Player player1 = new Player("Morty", GLOBAL.gGridCols -11, GLOBAL.gGridRows /2-5);
-  Player player2 = new Player("Alex", 11, GLOBAL.gGridRows /2-5);
+  Player player1 = new Player("Rick", 11, GLOBAL.GRID_ROWS /2-5);
+  Player player2 = new Player("Morty", GLOBAL.GRID_COLS -11, GLOBAL.GRID_ROWS /2-5);
 
 
   private float progress = 0;
@@ -34,7 +36,9 @@ class StartPage {
 
   StartPage() {
     // init game components
-    player1.setKeys(KeyCode.UP, KeyCode.DOWN, KeyCode.LEFT, KeyCode.RIGHT);
+    player2.setKeys(KeyCode.UP, KeyCode.DOWN, KeyCode.LEFT, KeyCode.RIGHT);
+    player1.setFreeMode(true);
+    player2.setFreeMode(true);
     init();// init GUI
   }
   StartPage(Main app){
@@ -74,7 +78,7 @@ class StartPage {
     root.getChildren().addAll(p1Keys);
     canvas.widthProperty().bind(root.widthProperty());
     canvas.heightProperty().bind(root.heightProperty());
-    _scene = new Scene(root, GLOBAL.gWindowW, GLOBAL.gWindowH);// preferred geometry
+    _scene = new Scene(root, GLOBAL.WINDOW_W, GLOBAL.WINDOW_H);// preferred geometry
     _scene.setOnKeyPressed(evt -> {
       System.out.println(evt);
       update(evt);
@@ -90,7 +94,7 @@ class StartPage {
     }.start();
     // calc initial progress
     progress = Utils.clamp(1 -
-                    player1.getDist(player2.getX(), player2.getY()) / GLOBAL.gWindowW
+                    player1.getDist(player2.getX(), player2.getY()) / GLOBAL.WINDOW_W
             , 0, 1);
   }
 
@@ -101,7 +105,7 @@ class StartPage {
     player2.handleKey(kevt);
     player1.handleKey(kevt);
     progress = Utils.clamp(1 -
-                    player1.getDist(player2.getX(), player2.getY()) / GLOBAL.gWindowW
+                    player1.getDist(player2.getX(), player2.getY()) / GLOBAL.WINDOW_W
             , 0, 1);
     System.out.println(progress);
     String colorStr = Utils.hexColor(
@@ -114,12 +118,13 @@ class StartPage {
   void draw() {
     // clamp should be added
     gc.setFill(Utils.colorInterplator(GLOBAL.START_CLR,GLOBAL.END_CLR, progress));
-    gc.fillRect(0, 0, GLOBAL.gWindowW, GLOBAL.gWindowH);
-    gc.setFill(Color.RED);
+    gc.fillRect(0, 0, GLOBAL.WINDOW_W, GLOBAL.WINDOW_H);
+//    gc.setFill(Color.RED);
     player1.draw(gc);
     player2.draw(gc);
-    gc.lineTo(player1.getX(), player1.getY());
-    gc.lineTo(player2.getX(), player2.getY());
+    _app.gamePage._controller.drawBeat(gc,AudioManager.getInstance()._elapsedSec);
+//    gc.lineTo(player1.getX(), player1.getY());
+//    gc.lineTo(player2.getX(), player2.getY());
   }
 
 
