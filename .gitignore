@@ -1,1 +1,7 @@
 /out
+/index-files
+script.js
+stylesheet.css
+*.zip
+*.html
+package-list
