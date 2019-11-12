@@ -5,10 +5,12 @@
 It is a maze game in which 2 players have to compete to get the chest and bring it home. They have to move according to the beats of music.
 
 ### Functionalities
-
+- Unified Mosaic style UI
 - Image sequence based Animation in `AniManager` and `FrameAnim`
 - Music play and beat match in `AudioManager`
 - Game map creating in MazeGenerator
+- Character selection and weapon selection in Characterselection
+- CharacterselectionModel for store the state of changing weapon or changing character
 - Game scene generation according to game map created by user.
 
   `GameController` is responsible for all gameplay logic and beat animation
