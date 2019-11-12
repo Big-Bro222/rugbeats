@@ -13,8 +13,9 @@ import javafx.scene.paint.Color;
 public class GameController {
   String[] imgNames = {"rugbeats/img/floor_1.png", "rugbeats/img/wall/hole.png", "rugbeats/img/wall/mid.png"
           , "rugbeats/img/wall/horizontal.png", "rugbeats/img/wall/vertical.png", "rugbeats/img/wall/tl.png"
-          , "rugbeats/img/wall/tr.png", "rugbeats/img/wall/bl.png", "rugbeats/img/wall/br.png"};
-  Image[] mapImgs = new Image[9];
+          , "rugbeats/img/wall/tr.png", "rugbeats/img/wall/bl.png", "rugbeats/img/wall/br.png"
+          , "rugbeats/img/wall/top.png", "rugbeats/img/wall/bottom.png"};
+  Image[] mapImgs = new Image[11];
   Image[] laneImgs = new Image[4];
   Image home;
   GameModel _model;
@@ -83,7 +84,7 @@ public class GameController {
     _p2.setKeys(KeyCode.UP, KeyCode.DOWN, KeyCode.LEFT, KeyCode.RIGHT);
     _animator.start();
     startNanoTime = System.nanoTime();
-    AudioManager.getInstance().play((int) (Math.random()*2));
+    AudioManager.getInstance().play((int) (Math.random() * 2));
   }
 
   private void update(KeyEvent evt) {
@@ -95,7 +96,7 @@ public class GameController {
     drawMap();
     _p1.draw(_gc);
     _p2.draw(_gc);
-    drawBeat(_gc,elapsedSec);
+    drawBeat(_gc, elapsedSec);
   }
 
   public void drawBeat(GraphicsContext gc, float elapsedSec) {
@@ -108,13 +109,13 @@ public class GameController {
 //    _gc.setFill(new Color(0.2, 0.8, 0.8, 1));
     AudioManager.getInstance().getBeatOffset();
     for (int i = 1; i <= 5; i++) {
-      gc.setFill(new Color(0.2, 0.8, 0.8, 1.2-i/5.0f));
+      gc.setFill(new Color(0.2, 0.8, 0.8, 1.2 - i / 5.0f));
       float minusOffset = -i * margin - GLOBAL.BEAT_W / 2 + AudioManager.getInstance()._offset * margin;
       float plusOffset = i * margin - GLOBAL.BEAT_W / 2 - AudioManager.getInstance()._offset * margin;
       gc.fillRoundRect(cX + minusOffset
-              , beatTop-5+i, GLOBAL.BEAT_W, GLOBAL.BEAT_H+5-i,3,3);
-      gc.fillRoundRect(cX +plusOffset
-              , beatTop-5+i, GLOBAL.BEAT_W, GLOBAL.BEAT_H+5-i,3,3);
+              , beatTop - 5 + i, GLOBAL.BEAT_W, GLOBAL.BEAT_H + 5 - i, 3, 3);
+      gc.fillRoundRect(cX + plusOffset
+              , beatTop - 5 + i, GLOBAL.BEAT_W, GLOBAL.BEAT_H + 5 - i, 3, 3);
     }
   }
 

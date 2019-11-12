@@ -21,7 +21,9 @@ enum GridType {
   TLCW,
   TRCW,
   BLCW,
-  BRCW
+  BRCW,
+  Top,
+  Bottom
 }
 
 class Cell {
@@ -39,13 +41,13 @@ public class GameModel {
   private int _cols = GLOBAL.GRID_COLS;
   private int _rows = GLOBAL.GRID_ROWS;
   Cell[][] mapTable = new Cell[_rows][_cols];
-  int[][] _maze=new int[_rows][_cols];
+  int[][] _maze = new int[_rows][_cols];
 
-  GameModel(){
+  GameModel() {
     for (int i = 0; i < _rows; i++) {
       for (int j = 0; j < _cols; j++) {
-        _maze[i][j]=0;
-        mapTable[i][j]=new Cell(j,i,GridType.Lane);
+        _maze[i][j] = 0;
+        mapTable[i][j] = new Cell(j, i, GridType.Lane);
       }
     }
   }
@@ -66,16 +68,16 @@ public class GameModel {
     }
     boolean t = false, d = false, l = false, r = false;
     //y-1
-    t = testWall(row - 1, col);
+    t = testWall(col, row - 1);
     //y+1
-    d = testWall(row + 1, col);
+    d = testWall(col, row + 1);
     //x-1
-    l = testWall(row, col - 1);
+    l = testWall(col - 1, row);
     //x+1
-    r = testWall(row, col + 1);
+    r = testWall(col + 1, row);
     // middle wall
     if (t && d && l && r) {
-      return GridType.MWall;
+      return GridType.VWall;
     }
     // vertical
     else if (t && d) {
@@ -95,13 +97,27 @@ public class GameModel {
     } else if (t && r && !l && !d) {
       return GridType.BLCW;
     }
+    // bottom
+    else if(t&&!d&&!l&&!r){
+      return GridType.Bottom;
+    }
+    //top
+    else if(d&&!t&&!l&&!r){
+      return  GridType.Top;
+    }
+    //left right
+    else if(l||r){
+      return GridType.HWall;
+    }
     // hole
     else {
+      System.out.println(col + "  " + row);
+      System.out.println("t" + t + "  d" + d + "  l" + l + "  r" + r);
       return GridType.Hole;
     }
   }
 
-   boolean testWall(int gridX, int gridY) {
+  boolean testWall(int gridX, int gridY) {
     return insideCheck(gridX, gridY) && (_maze[gridY][gridX] == 1);
   }
 

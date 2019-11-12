@@ -48,7 +48,7 @@ public class Main extends Application {
     primaryStage.setTitle("Rugbeats");
     //primaryStage.setResizable(false);
     primaryStage.show();
-    AudioManager.getInstance().play(2);
+    AudioManager.getInstance().play(1);
   }
 
 

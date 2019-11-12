@@ -54,14 +54,14 @@ public class AudioManager {
   boolean checkOnBeat() {
     getBeatOffset();
     boolean onBeat = _offset < _err[musicIndex] || _offset > (1 - _err[musicIndex]);
-    System.out.print(onBeat);
-    System.out.println("____" + _offset);
+//    System.out.print(onBeat);
+//    System.out.println("____" + _offset);
     return onBeat;
   }
 
   float getBeatOffset() {
     _elapsedSec = (System.nanoTime() - startTime) / 1000000000f;
-    System.out.println("elapsed "+_elapsedSec);
+//    System.out.println("elapsed "+_elapsedSec);
     float currentBeat = _elapsedSec * bpm[musicIndex] / 60f;
     _offset = currentBeat % 1;
     return _offset;

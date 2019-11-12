@@ -116,7 +116,7 @@ public class Player {
       lastDrawTime=AudioManager.getInstance()._elapsedSec;
     }
     float deltaTime = AudioManager.getInstance()._elapsedSec - lastDrawTime;
-    System.out.println(deltaTime);
+//    System.out.println(deltaTime);
     for (int i = 0; i < missOpacity.length; i++) {
       missOpacity[i]-=  deltaTime;
       if (missOpacity[i]<0){
