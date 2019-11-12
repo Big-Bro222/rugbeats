@@ -7,4 +7,6 @@ public enum AnimName {
   Ninja,
   Wood,
   Wiz
+
 }
+

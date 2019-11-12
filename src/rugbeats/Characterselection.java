@@ -70,8 +70,8 @@ public class Characterselection extends GridPane {
     Player1_Weapon = new clothChanger(WeaponImgList);
     Player2_Weapon = new clothChanger(WeaponImgList);
 //final character layout
-    Character_p1 = new Character_layout(CharacterImg1, WeaponImg1);
-    Character_p2 = new Character_layout(CharacterImg1, WeaponImg1);
+    Character_p1 = new Character_layout(CharacterImgList.get(0), WeaponImgList.get(0));
+    Character_p2 = new Character_layout(CharacterImgList.get(0), WeaponImgList.get(0));
     this.setId("Characterselectionbg");
     initializeUI();
 
@@ -260,6 +260,7 @@ public class Characterselection extends GridPane {
         GLOBAL.p2 = Csmodel.p2;
         GLOBAL.pw1 = Csmodel.p1w;
         GLOBAL.pw2 = Csmodel.p2w;
+
         System.out.println("+++++++++++++++");
         System.out.println(GLOBAL.p1);
         System.out.println(GLOBAL.p2);

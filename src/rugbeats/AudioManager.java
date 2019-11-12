@@ -12,8 +12,8 @@ public class AudioManager {
   float _elapsedSec;
   Media[] music = new Media[4];
   int[] bpm = {106, 170, 170, 90};
-  float[] _err = {0.2f, 0.3f, 0.30f, 0.2f};
-  float[] initialOffset = {0.55f, 0, 0, 0};
+  float[] _err = {0.2f, 0.19f, 0.30f, 0.2f};
+  float[] initialOffset = {0.55f, 0.09f, 0, 0};
   int musicLen = 4;
   float _offset;
   MediaPlayer[] mPlayer = new MediaPlayer[4];
@@ -73,7 +73,11 @@ public class AudioManager {
 //    System.out.println("elapsed "+_elapsedSec);
     float oneBeatTime = bpm[musicIndex] / 60f;
     float currentBeat = _elapsedSec * oneBeatTime;
-    _offset = (currentBeat % 1 + initialOffset[musicIndex])%1;
+    _offset = (currentBeat % 1 + initialOffset[musicIndex]) % 1;
     return _offset;
+  }
+
+  void shuffle() {
+    play( musicIndex==0?1:0);
   }
 }

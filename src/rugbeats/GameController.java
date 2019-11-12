@@ -31,9 +31,10 @@ public class GameController {
   long startNanoTime;
   float elapsedSecond;
 
-  public void setApp(Main app){
-    _app=app;
+  public void setApp(Main app) {
+    _app = app;
   }
+
   void bindModel(GameModel m) {
     _model = m;
   }
@@ -75,11 +76,12 @@ public class GameController {
 
   void initGame() {
     _p1 = new Player("Morty", 0, 0);
-    _p2 = new Player("Rick", GLOBAL.GRID_COLS - 1, GLOBAL.GRID_ROWS - 1);
+    _p2 = new Player("Ricky", GLOBAL.GRID_COLS - 1, GLOBAL.GRID_ROWS - 1);
     _p1.setAnim(GLOBAL.p1);
     _p1.setWeapon(GLOBAL.pw1);
     _p2.setAnim(GLOBAL.p2);
     _p2.setWeapon(GLOBAL.pw2);
+    _model.initGame();
     _model.calcMap(GLOBAL.MAZE_STATE);
     _p1.bindModel(_model);
     _p2.bindModel(_model);
@@ -93,15 +95,19 @@ public class GameController {
   }
 
   private void update(KeyEvent evt) {
+    if (evt.getEventType() == KeyEvent.KEY_RELEASED
+            && evt.getCode() == KeyCode.SPACE) {
+      AudioManager.getInstance().shuffle();
+    }
     _p1.handleKey(evt);
     _p2.handleKey(evt);
   }
 
   private void draw(float elapsedSec) {
     drawMap();
+    drawBeat(_gc, elapsedSec);
     _p1.draw(_gc);
     _p2.draw(_gc);
-    drawBeat(_gc, elapsedSec);
     _gc.drawImage(chest, _model.chestX * gridSize + (int) (0.2f * gridSize)
             , _model.chestY * gridSize + (int) (0.2f * gridSize) - gridSize / 4
             , gridSize * 0.6f, gridSize * 0.6f);

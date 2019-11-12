@@ -13,6 +13,8 @@ class GLOBAL {
   static final int BEAT_H=25;
   static final int BEAT_W=8;
   static final int GRID_SIZE=40;
+  static final float PLAYER_SCALE=0.8f;
+  static final float  PLAYER_MARGIN=0.1f;
   static final int cols=30;
   static final int rows= 20;
 //  static final float HW_RATIO=5.0f/9;
@@ -22,9 +24,9 @@ class GLOBAL {
   static final int GRID_ROWS=WINDOW_H/GRID_SIZE;
   static final Color YELLOW=new Color(249.0/255,195.0/255,44.0/255,1);
   static final Color START_CLR=new Color(37.0/255,37.0/255,37.0/255,1);
-  static final Color END_CLR=new Color(45.0/255,199.0/255,255.0/255,1);
+  static final Color END_CLR=new Color(112.0/255,79.0/255,68.0/255,1);
 
-
+static int WINNER=0;
 
   // Global Variables
   static int p1=0,p2=0,pw1=0,pw2=0;
