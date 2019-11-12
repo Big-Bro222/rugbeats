@@ -2,6 +2,8 @@ package rugbeats;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
+
 
 public class AudioManager {
   int musicIndex = 0;
@@ -10,7 +12,8 @@ public class AudioManager {
   float _elapsedSec;
   Media[] music = new Media[4];
   int[] bpm = {106, 170, 170, 90};
-  float[] _err = {0.3f, 0.2f, 0.25f, 0.18f};
+  float[] _err = {0.2f, 0.3f, 0.30f, 0.2f};
+  float[] initialOffset = {0.55f, 0, 0, 0};
   int musicLen = 4;
   float _offset;
   MediaPlayer[] mPlayer = new MediaPlayer[4];
@@ -46,9 +49,15 @@ public class AudioManager {
     for (int i = 0; i < musicLen; i++) {
       mPlayer[i].stop();
     }
+    mPlayer[musicIndex].setOnEndOfMedia(new Runnable() {
+      public void run() {
+        mPlayer[musicIndex].seek(Duration.ZERO);
+      }
+    });
     mPlayer[musicIndex].play();
     startTime = System.nanoTime();
-    System.out.println("playing bgm " + musicIndex+" starttime "+startTime);
+    System.out.println("playing bgm " + musicIndex + " starttime " + startTime);
+//    mPlayer[0].
   }
 
   boolean checkOnBeat() {
@@ -62,8 +71,9 @@ public class AudioManager {
   float getBeatOffset() {
     _elapsedSec = (System.nanoTime() - startTime) / 1000000000f;
 //    System.out.println("elapsed "+_elapsedSec);
-    float currentBeat = _elapsedSec * bpm[musicIndex] / 60f;
-    _offset = currentBeat % 1;
+    float oneBeatTime = bpm[musicIndex] / 60f;
+    float currentBeat = _elapsedSec * oneBeatTime;
+    _offset = (currentBeat % 1 + initialOffset[musicIndex])%1;
     return _offset;
   }
 }

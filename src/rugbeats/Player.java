@@ -31,8 +31,10 @@ public class Player {
   private float lastDrawTime = 0;
   private float[] missOpacity = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
   private boolean freeMode = false;
+  private boolean hasChest = false;
   private GameModel model;
   private GameController _controller;
+
 
   public void bindModel(GameModel m) {
     model = m;
@@ -112,19 +114,19 @@ public class Player {
   }
 
   void drawMiss(GraphicsContext gc) {
-    if (AudioManager.getInstance()._elapsedSec<lastDrawTime){
-      lastDrawTime=AudioManager.getInstance()._elapsedSec;
+    if (AudioManager.getInstance()._elapsedSec < lastDrawTime) {
+      lastDrawTime = AudioManager.getInstance()._elapsedSec;
     }
     float deltaTime = AudioManager.getInstance()._elapsedSec - lastDrawTime;
 //    System.out.println(deltaTime);
     for (int i = 0; i < missOpacity.length; i++) {
-      missOpacity[i]-=  deltaTime;
-      if (missOpacity[i]<0){
-        missOpacity[i]=0;
+      missOpacity[i] -= deltaTime;
+      if (missOpacity[i] < 0) {
+        missOpacity[i] = 0;
       }
       if (missOpacity[i] != 0) {
         gc.setFill(new Color(1, 1, 1, missOpacity[i]));
-        gc.fillText("MISS", x, y - (1-missOpacity[i]) * 20);
+        gc.fillText("MISS", x, y - (1 - missOpacity[i]) * 20);
       }
     }
     lastDrawTime = AudioManager.getInstance()._elapsedSec;
@@ -180,11 +182,26 @@ public class Player {
       System.out.println(notOther);
       if (_controller._p2.name == name) {
         notOther = _controller._p1.gridX != gridx || _controller._p1.gridY != gridy;
+        // random place chest
+        if (!notOther) {
+          if (_controller._p1.hasChest) {
+            _controller._p1.hasChest = false;
+            model.calcChestPos();
+          }
+        }
       }
       if (_controller._p1.name == name) {
         notOther = _controller._p2.gridX != gridx || _controller._p2.gridY != gridy;
+        // random place chest
+        if (!notOther) {
+          if (_controller._p2.hasChest) {
+            _controller._p2.hasChest = false;
+            model.calcChestPos();
+          }
+        }
       }
       System.out.println(notOther);
+
       return notOther && inside && (!isWall);
     }
   }
@@ -230,6 +247,27 @@ public class Player {
         }
         break;
     }
+    if (!freeMode) {
+      if (gridX == model.chestX && gridY == model.chestY) {
+        hasChest = true;
+      }
+      if (hasChest) {
+        model.chestX = gridX;
+        model.chestY = gridY;
+      }
+    }
     updateScreenPos();
+    if (hasChest) {
+      if (_controller._p1.name == name) {
+        if (gridX == cols - 1 && gridY == rows - 1) {
+          _controller._app.nextScene();
+        }
+      }
+      if (_controller._p2.name == name) {
+        if (gridX == 0 && gridY == 0) {
+          _controller._app.nextScene();
+        }
+      }
+    }
   }
 }

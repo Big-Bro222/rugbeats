@@ -30,6 +30,7 @@ public class GamePage {
     _controller.bindCanvas(_canvas);
     _controller.bindModel(_model);
     _controller.bindScene(_scene);
+    _controller.setApp(_app);
   }
   Scene getScene(){
     return _scene;

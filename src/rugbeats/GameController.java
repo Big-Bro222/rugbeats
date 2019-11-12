@@ -17,7 +17,7 @@ public class GameController {
           , "rugbeats/img/wall/top.png", "rugbeats/img/wall/bottom.png"};
   Image[] mapImgs = new Image[11];
   Image[] laneImgs = new Image[4];
-  Image home;
+  Image home, chest;
   GameModel _model;
   AudioManager _aM;
   Player _p1;
@@ -26,10 +26,14 @@ public class GameController {
   Canvas _canvas;
   GraphicsContext _gc;
   AnimationTimer _animator;
+  Main _app;
   int gridSize = GLOBAL.GRID_SIZE;
   long startNanoTime;
   float elapsedSecond;
 
+  public void setApp(Main app){
+    _app=app;
+  }
   void bindModel(GameModel m) {
     _model = m;
   }
@@ -66,6 +70,7 @@ public class GameController {
       laneImgs[i] = new Image("rugbeats/img/floor_" + (i + 1) + ".png");
     }
     home = new Image("rugbeats/img/home.png");
+    chest = new Image("rugbeats/img/chest.png");
   }
 
   void initGame() {
@@ -97,6 +102,9 @@ public class GameController {
     _p1.draw(_gc);
     _p2.draw(_gc);
     drawBeat(_gc, elapsedSec);
+    _gc.drawImage(chest, _model.chestX * gridSize + (int) (0.2f * gridSize)
+            , _model.chestY * gridSize + (int) (0.2f * gridSize) - gridSize / 4
+            , gridSize * 0.6f, gridSize * 0.6f);
   }
 
   public void drawBeat(GraphicsContext gc, float elapsedSec) {

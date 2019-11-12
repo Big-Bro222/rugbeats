@@ -42,6 +42,7 @@ public class GameModel {
   private int _rows = GLOBAL.GRID_ROWS;
   Cell[][] mapTable = new Cell[_rows][_cols];
   int[][] _maze = new int[_rows][_cols];
+  int chestX = _cols / 2, chestY = _rows / 2;
 
   GameModel() {
     for (int i = 0; i < _rows; i++) {
@@ -52,6 +53,17 @@ public class GameModel {
     }
   }
 
+  void calcChestPos() {
+    int newX = chestX + (int) (Math.random() * 4 + 2) * (Math.random() > 0.5 ? 1 : -1);
+    int newY = chestY + (int) (Math.random() * 4 + 2) * (Math.random() > 0.5 ? 1 : -1);
+    if (insideCheck(newX, newY) && !testWall(newX, newY)) {
+      chestX = newX;
+      chestY = newY;
+    } else {
+      calcChestPos();
+    }
+  }
+
   void calcMap(int[][] maze) {
     _maze = maze;
     for (int r = 0; r < _rows; r++) {
@@ -59,6 +71,7 @@ public class GameModel {
         mapTable[r][c] = new Cell(c, r, getWallType(r, c));
       }
     }
+    calcChestPos();
   }
 
   private GridType getWallType(int row, int col) {
@@ -98,15 +111,15 @@ public class GameModel {
       return GridType.BLCW;
     }
     // bottom
-    else if(t&&!d&&!l&&!r){
+    else if (t && !d && !l && !r) {
       return GridType.Bottom;
     }
     //top
-    else if(d&&!t&&!l&&!r){
-      return  GridType.Top;
+    else if (d && !t && !l && !r) {
+      return GridType.Top;
     }
     //left right
-    else if(l||r){
+    else if (l || r) {
       return GridType.HWall;
     }
     // hole
