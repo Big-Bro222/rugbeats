@@ -13,7 +13,7 @@ It is a maze game in which 2 players have to compete to get the chest and bring 
 
   `GameController` is responsible for all gameplay logic and beat animation
 
-  `GameModel` is responsible for game scene management and wall type calculation
+  `GameModel` is responsible for game data management and wall type calculation
 
 - Player control is implemented in `Player` which is responsible for keyboard events and some player animation.
 - `Utils` include some utility functions like color interpolation and value clamp
