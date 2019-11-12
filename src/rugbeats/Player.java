@@ -3,6 +3,9 @@ package rugbeats;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
+import rugbeats.animation.AniManager;
+import rugbeats.animation.AnimName;
 
 public class Player {
   private int x = 10;
@@ -11,24 +14,80 @@ public class Player {
   private int h = 50;
   private int gridX = 0;// pos in grid
   private int gridY = 0;
-  private int cols = GLOBAL.gGridCols;
-  private int rows = GLOBAL.gGridRows;
+  private int cols = GLOBAL.GRID_COLS;
+  private int rows = GLOBAL.GRID_ROWS;
   private int gridSize = GLOBAL.GRID_SIZE;
   private String name;
+  private AnimName animName;
+  private int weaponIndex = 0;
   //flags
-  private boolean operable = true;// can ope while moving & not on beat
+  private boolean _operable = true;// can ope while moving & not on beat
   // variables
   private KeyCode upKey = KeyCode.W;
   private KeyCode leftKey = KeyCode.A;
   private KeyCode downKey = KeyCode.S;
   private KeyCode rightKey = KeyCode.D;
   private boolean[] keyLocked = {false, false, false, false}; // u d l r
+  private float lastDrawTime = 0;
+  private float[] missOpacity = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+  private boolean freeMode = false;
+  private boolean hasChest = false;
+  private GameModel model;
+  private GameController _controller;
+
+
+  public void bindModel(GameModel m) {
+    model = m;
+  }
+
+  void bindController(GameController c) {
+    _controller = c;
+  }
+
+  public void setFreeMode(boolean freeMode) {
+    this.freeMode = freeMode;
+  }
+
+  public void setOperable(boolean o) {
+    _operable = o;
+  }
 
   Player(String name, int gridX, int gridY) {
     this.name = name;
     this.gridX = gridX;
     this.gridY = gridY;
+    animName = AnimName.Big;
     updateScreenPos();
+  }
+
+  void setAnim(int index) {
+    switch (index) {
+      case 0:
+        animName = AnimName.Big;
+        break;
+      case 1:
+        animName = AnimName.Knight;
+        break;
+      case 2:
+        animName = AnimName.Man;
+        break;
+      case 3:
+        animName = AnimName.Ninja;
+        break;
+      case 4:
+        animName = AnimName.Wood;
+        break;
+      case 5:
+        animName = AnimName.Wiz;
+        break;
+      default:
+        animName = AnimName.Big;
+        break;
+    }
+  }
+
+  void setWeapon(int index) {
+    weaponIndex = index;
   }
 
   public int getX() {
@@ -47,13 +106,34 @@ public class Player {
   }
 
   void draw(GraphicsContext gc) {
-    gc.fillText(name, x, y);
-    gc.fillOval(x, y, w, h / 2);
-    gc.fillRect(x, y + h / 2, w, h / 2);
+    gc.setFill(new Color(1, 1, 1, 1));
+    gc.fillText(name, x, y + 7 + gridSize * 0.6f);
+    gc.drawImage(AniManager.getInstance().getFrame(animName), x, y, gridSize * 0.6f, gridSize * 0.6f);
+    gc.drawImage(AniManager.getInstance().getWeapon(weaponIndex), x, y);
+    drawMiss(gc);
+  }
+
+  void drawMiss(GraphicsContext gc) {
+    if (AudioManager.getInstance()._elapsedSec < lastDrawTime) {
+      lastDrawTime = AudioManager.getInstance()._elapsedSec;
+    }
+    float deltaTime = AudioManager.getInstance()._elapsedSec - lastDrawTime;
+//    System.out.println(deltaTime);
+    for (int i = 0; i < missOpacity.length; i++) {
+      missOpacity[i] -= deltaTime;
+      if (missOpacity[i] < 0) {
+        missOpacity[i] = 0;
+      }
+      if (missOpacity[i] != 0) {
+        gc.setFill(new Color(1, 1, 1, missOpacity[i]));
+        gc.fillText("MISS", x, y - (1 - missOpacity[i]) * 20);
+      }
+    }
+    lastDrawTime = AudioManager.getInstance()._elapsedSec;
   }
 
   float getDist(int targetX, int targetY) {
-    return (float)Math.sqrt(
+    return (float) Math.sqrt(
             (targetX - x) * (targetX - x)
                     + (targetY - y) * (targetY - y)
     );
@@ -88,37 +168,106 @@ public class Player {
     }
   }
 
-  private boolean insideCheck(int gridx, int gridy) {
-    return gridx >= 0 && gridx < cols
-            && gridy >= 0 && gridy < rows;
+  private boolean moveCheck(int gridx, int gridy) {
+    if (freeMode) {
+      return gridx >= 0 && gridx < cols
+              && gridy >= 0 && gridy < rows;
+    } else {
+      boolean inside = model.insideCheck(gridx, gridy);
+      boolean isWall = model.testWall(gridx, gridy);
+      boolean notOther = true;
+      System.out.println("--------");
+      System.out.println(inside);
+      System.out.println(isWall);
+      System.out.println(notOther);
+      if (_controller._p2.name == name) {
+        notOther = _controller._p1.gridX != gridx || _controller._p1.gridY != gridy;
+        // random place chest
+        if (!notOther) {
+          if (_controller._p1.hasChest) {
+            _controller._p1.hasChest = false;
+            model.calcChestPos();
+          }
+        }
+      }
+      if (_controller._p1.name == name) {
+        notOther = _controller._p2.gridX != gridx || _controller._p2.gridY != gridy;
+        // random place chest
+        if (!notOther) {
+          if (_controller._p2.hasChest) {
+            _controller._p2.hasChest = false;
+            model.calcChestPos();
+          }
+        }
+      }
+      System.out.println(notOther);
+
+      return notOther && inside && (!isWall);
+    }
   }
-  private void updateScreenPos(){
-    x = gridX * gridSize;
-    y = gridY * gridSize;
+
+  private void updateScreenPos() {
+    x = gridX * gridSize + (int) (0.2f * gridSize);
+    y = gridY * gridSize + (int) (0.2f * gridSize);
   }
+
+  private void addMiss() {
+    for (int i = 0; i < missOpacity.length; i++) {
+      if (missOpacity[i] == 0) {
+        missOpacity[i] = 1;
+        return;
+      }
+    }
+  }
+
   private void move(char dir) {
+    if (!AudioManager.getInstance().checkOnBeat()) {
+      addMiss();
+      return;
+    }
     switch (dir) {
       case 'l':
-        if (insideCheck(gridX - 1, gridY)) {
+        if (moveCheck(gridX - 1, gridY)) {
           gridX--;
         }
         break;
       case 'r':
-        if (insideCheck(gridX + 1, gridY)) {
+        if (moveCheck(gridX + 1, gridY)) {
           gridX++;
         }
         break;
       case 'u':
-        if (insideCheck(gridX, gridY - 1)) {
+        if (moveCheck(gridX, gridY - 1)) {
           gridY--;
         }
         break;
       case 'd':
-        if (insideCheck(gridX, gridY + 1)) {
+        if (moveCheck(gridX, gridY + 1)) {
           gridY++;
         }
         break;
     }
+    if (!freeMode) {
+      if (gridX == model.chestX && gridY == model.chestY) {
+        hasChest = true;
+      }
+      if (hasChest) {
+        model.chestX = gridX;
+        model.chestY = gridY;
+      }
+    }
     updateScreenPos();
+    if (hasChest) {
+      if (_controller._p1.name == name) {
+        if (gridX == cols - 1 && gridY == rows - 1) {
+          _controller._app.nextScene();
+        }
+      }
+      if (_controller._p2.name == name) {
+        if (gridX == 0 && gridY == 0) {
+          _controller._app.nextScene();
+        }
+      }
+    }
   }
 }

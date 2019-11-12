@@ -6,20 +6,24 @@ public class FrameAnim {
   Image[] _frames;
   private float _duration;
 
-  public FrameAnim(float a) {
-    _duration = a;
-  }
+  //  public FrameAnim(float a) {
+//    _duration = a;
+//  }
   public FrameAnim(Image[] f, float d) {
     _frames = f;
     _duration = d;
   }
 
-  public void setDuration(float dur){
-    _duration=dur;
-    String str="dd";
+  public void setDuration(float dur) {
+    _duration = dur;
   }
-  public Image getFrame(double time) {
+
+  public Image getFrame(float time) {
     return _frames[(int) ((time % _duration) * _frames.length / _duration)];
+  }
+
+  public int testFrame(float t) {
+    return (int) ((t % _duration) * _frames.length / _duration);
   }
 
   public double getDuration() {
