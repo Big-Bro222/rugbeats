@@ -31,8 +31,7 @@ public class AudioManager {
 
   void loadMusic() {
     for (int i = 0; i < music.length; i++) {
-      music[i] = null;
-      mPlayer[i] = null;
+      System.out.println(getClass().getResource("bgm" + (i + 1) + ".mp3"));
       music[i] = new Media(getClass().getResource("bgm" + (i + 1) + ".mp3").toExternalForm());
       mPlayer[i] = new MediaPlayer(music[i]);
     }
