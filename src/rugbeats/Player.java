@@ -17,6 +17,7 @@ public class Player {
   private int cols = GLOBAL.GRID_COLS;
   private int rows = GLOBAL.GRID_ROWS;
   private int gridSize = GLOBAL.GRID_SIZE;
+  private float blockTime=0f;
   private String name;
   private AnimName animName;
   private int weaponIndex = 0;
@@ -84,6 +85,7 @@ public class Player {
   }
 
   void draw(GraphicsContext gc) {
+
     gc.setFill(new Color(1, 1, 1, 1));
     gc.fillText(name, x, y + 7 + gridSize * GLOBAL.PLAYER_SCALE);
     gc.drawImage(AniManager.getInstance().getFrame(animName), x, y, gridSize * GLOBAL.PLAYER_SCALE, gridSize * GLOBAL.PLAYER_SCALE);
@@ -96,6 +98,9 @@ public class Player {
       lastDrawTime = AudioManager.getInstance()._elapsedSec;
     }
     float deltaTime = AudioManager.getInstance()._elapsedSec - lastDrawTime;
+    if (blockTime>0){
+      blockTime-=deltaTime;
+    }
 //    System.out.println(deltaTime);
     for (int i = 0; i < missOpacity.length; i++) {
       missOpacity[i] -= deltaTime;
@@ -190,6 +195,7 @@ public class Player {
   }
 
   private void addMiss() {
+    blockTime+=0.3f;
     for (int i = 0; i < missOpacity.length; i++) {
       if (missOpacity[i] == 0) {
         missOpacity[i] = 1;
@@ -201,6 +207,9 @@ public class Player {
   private void move(char dir) {
     if (!AudioManager.getInstance().checkOnBeat()) {
       addMiss();
+      return;
+    }
+    if (blockTime>0){
       return;
     }
     switch (dir) {
