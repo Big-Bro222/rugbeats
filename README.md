@@ -4,6 +4,8 @@
 
 It is a maze game in which 2 players have to compete to get the chest and bring it home. They have to move according to the beats of music.
 
+### Credit
+Tileset from [0x72](https://0x72.itch.io/)
 ### Functionalities
 - Unified Mosaic style UI
 - Image sequence based Animation in `AniManager` and `FrameAnim`
